@@ -1,0 +1,13 @@
+{
+  "name" : "kaephas/IT328/dating",
+  "authors" : [
+    {
+      "name": "Kaephas",
+      "email":"kkain@mail.greenriver.edu"
+    }
+  ],
+  "require": {
+    "bcosca/fatfree-core": "dev-master"
+  }
+
+}
