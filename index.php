@@ -1,9 +1,10 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: homefolder
+ * User: Kaephas Kain
  * Date: 2019-04-12
- * Time: 13:15
+ * Filename: index.php
+ * Description: loads error reporting, composer, fat free, setting default route to views/home.html
  */
 
 //Turn on error reporting

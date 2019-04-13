@@ -1,7 +1,12 @@
 /*
+ * Kaephas Kain
+ * 4-12-2019
+ * styles.css
  *
+ * styles for home.html
  */
 
+/* Nav styles */
 nav {
     background: rebeccapurple;
 }
@@ -10,10 +15,9 @@ nav a {
     color: white;
 }
 
-blockquote {
-    margin-left: 25px;
-}
+/* body styles */
 
+/* rounded grey border, slight gap around contents*/
 .container {
     margin-top: 25px;
     padding: 25px;
@@ -22,6 +26,11 @@ blockquote {
     border-radius: 5px;
 }
 
+blockquote {
+    margin-left: 25px;
+}
+
+/* image styles - round edges, 15px from adjacent*/
 img {
     border-radius: 5px !important;
     margin: 15px;

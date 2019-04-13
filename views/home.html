@@ -1,29 +1,42 @@
+<!--
+Kaephas Kain
+4-12-2019
+home.html
+
+landing page for dating site assignment
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
+    <!-- Bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
+    <!-- my own -->
     <link rel="stylesheet" href="styles/styles.css">
 
     <title>Final Fantasy Dating</title>
 </head>
 <body>
+    <!-- nav -->
     <nav class="nav">
         <a class="nav-link" href="#">FF Match</a>
     </nav>
 
+    <!-- page contents -->
     <div class="container" id="splash">
         <div class="row">
+            <!-- left half -->
             <div class="col-md-6">
+                <!-- introduction -->
                 <h1 class="text-center">Final Fantasy Match</h1>
                 <p class="">Welcome to the multiverse's greatest dating site for both 2d sprites
                 and 3d models. At FF Match, you are guaranteed to find a perfect Final Fantasy character
                 to pair with your personality and satisfy all your gaming desires. Create a profile now, and see
                 for yourself why everyone who has used this site is happier than ever before!</p><br>
                 <h3 class="text-center">Read some of our amazing results:</h3>
+                <!-- results quotes -->
                 <hr>
                 <blockquote class="blockquote">
                     <p class="mb-0">"I give most people the cold shoulder, but this site taught me that even I could be
@@ -41,12 +54,14 @@
                     <button class="btn btn-primary text-center">Create a Profile!</button>
                 </div>
             </div>
+            <!-- right half: image, drops to bottom on smaller widths-->
             <div class="col-md-6">
                 <img class="img-fluid" src="images/CloudAerith.jpg" alt="cloud-aerith">
             </div>
         </div>
     </div>
 
+    <!-- bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
