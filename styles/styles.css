@@ -7,7 +7,11 @@ nav {
 }
 
 nav a {
-    color: white !important;
+    color: white;
+}
+
+blockquote {
+    margin-left: 25px;
 }
 
 .container {
