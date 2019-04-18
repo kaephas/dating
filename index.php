@@ -35,5 +35,11 @@ $f3->route('POST /personal', FUNCTION()
     echo $view->render('views/personal_info.html');
 });
 
+$f3->route('POST /profile', FUNCTION()
+{
+    $view = new Template();
+    echo $view->render('views/profile.html');
+});
+
 //run Fat-free
 $f3 -> run();

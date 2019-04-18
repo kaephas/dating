@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <!-- my own -->
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <title>Profile</title>
+</head>
+<body>
+    <nav class="nav">
+        <a class="nav-link" href="#">FF Match</a>
+    </nav>
+
+    <div class="container">
+        <h1>Profile</h1>
+        <hr>
+
+        <form action="" method="post">
+            <div class="row">
+                <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" id="email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="states">State</label>
+                            <select name="states" id="states" class="form-control">
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                                <input type="text" id="age" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <div id="gender">
+                                <label>
+                                    <input type="radio">
+                                </label> Male
+                                <label>
+                                    <input type="radio">
+                                </label> Female
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="text" id="phone" class="form-control">
+                        </div>
+                </div>  <!-- end column 1 -->
+                <div class="col-md-4">
+                    <div class="container text-center" id="note">
+                        <p><span class="bold">Note:</span> All information entered is protected by our
+                            <a href="" id="privacy">privacy policy</a>. Profile information can only be
+                            viewed by others with your permission.</p>
+                    </div>
+                </div>  <!-- end column 2 -->
+            </div> <!-- end row -->
+            <div class="text-right">
+                <input type="submit" value="Next &gt;" class="btn btn-primary ml-auto">
+            </div>
+        </form>
+    </div>
+
+    <!-- my script -->
+    <script src="scripts/dating.js"></script>
+    <!-- bootstrap scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</body>
+</html>
