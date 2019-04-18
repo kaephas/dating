@@ -7,6 +7,8 @@
  * Description: loads error reporting, composer, fat free, setting default route to views/home.html
  */
 
+session_start();
+
 //Turn on error reporting
 ini_set('display_errors' ,1);
 error_reporting(E_ALL);
@@ -24,7 +26,13 @@ $f3 -> set('DEBUG', 3);
 $f3->route('GET /', FUNCTION()
 {
     $view = new Template();
-    echo $view-> render('views/home.html');
+    echo $view->render('views/home.html');
+});
+
+$f3->route('POST /personal', FUNCTION()
+{
+    $view = new Template();
+    echo $view->render('views/personal_info.html');
 });
 
 //run Fat-free
