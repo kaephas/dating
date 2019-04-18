@@ -19,10 +19,12 @@ nav a {
 
 /* rounded grey border, slight gap around contents*/
 .container {
-    margin-top: 25px;
     padding: 25px;
     width: 90%;
-    border: 1px solid grey;
+    max-width: 90%;
+    margin: auto;
+    margin-top: 25px;
+    border: 1px solid lightgrey;
     border-radius: 5px;
 }
 
@@ -34,4 +36,18 @@ blockquote {
 img {
     border-radius: 5px !important;
     margin: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+#note {
+    padding: 10px;
+    background: lightgrey;
+    margin-bottom: 25px;
 }
