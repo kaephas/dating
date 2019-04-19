@@ -10,7 +10,7 @@ function indoor() {
 
     let output = "";
     indoorInterests.forEach(function(interest) {
-        output += '<div class="col-md-3">' +
+        output += '<div class="col-md-3 col-sm-6">' +
             '<input type="checkbox" name="indoor[]" id="' + interest + '">' +
             '<label for="' + interest + '" class="checkbox">' + interest + '</label>' +
             '</div>';
@@ -31,7 +31,7 @@ function outdoor() {
 
     let output = "";
     outdoorInterests.forEach(function(interest) {
-        output += '<div class="col-md-3">' +
+        output += '<div class="col-md-3 col-sm-6">' +
             '<input type="checkbox" name="outdoor[]" id="' + interest + '">' +
             '<label for="' + interest + '" class="checkbox">' + interest + '</label>' +
             '</div>';
