@@ -21,6 +21,5 @@ function states() {
         }
         output += stateNames[i] + "</option>";
     }
-    console.log(stateNames.length);
     return output;
 }
