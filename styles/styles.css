@@ -60,7 +60,7 @@ label {
     text: blue;
 }
 
-.checkbox > label {
+.checkbox {
     font-weight: normal;
     padding-left: 5px;
     vertical-align: text-bottom;
