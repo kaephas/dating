@@ -55,7 +55,7 @@ $f3->route('POST /interests', FUNCTION()
 {
     // get post variables from previous form
     $_SESSION['email'] = $_POST['email'];
-    $_SESSION['state'] = $_POST['state'];
+    $_SESSION['state'] = strtoupper($_POST['state']);
     $_SESSION['seeking'] = $_POST['seeking'];
     $_SESSION['bio'] = $_POST['bio'];
 
@@ -69,6 +69,14 @@ $f3->route('POST /summary', FUNCTION()
     // get post variables from last form
     $_SESSION['indoor'] = $_POST['indoor'];
     $_SESSION['outdoor'] = $_POST['outdoor'];
+    $interests = "";
+    foreach($_POST['indoor'] as $interest) {
+        $interests .= $interest . " ";
+    }
+    foreach($_POST['outdoor'] as $interest) {
+        $interests .= $interest . " ";
+    }
+    $_SESSION['interests'] = substr($interests,0, -1);
 
     $view = new Template();
     echo $view->render('views/summary.html');
