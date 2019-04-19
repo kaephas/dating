@@ -22,29 +22,56 @@ $f3 = Base:: instance();
 //Turn on Fat-free error reporting
 $f3 -> set('DEBUG', 3);
 
-//Define a default route
+//Define a default route (dating splash page)
 $f3->route('GET /', FUNCTION()
 {
     $view = new Template();
     echo $view->render('views/home.html');
 });
 
+// personal information form
 $f3->route('POST /personal', FUNCTION()
 {
     $view = new Template();
     echo $view->render('views/personal_info.html');
 });
 
+// profile information form
 $f3->route('POST /profile', FUNCTION()
 {
+    // get post variables from previous form
+    $_SESSION['first'] = $_POST['first'];
+    $_SESSION['last'] = $_POST['last'];
+    $_SESSION['age'] = $_POST['age'];
+    $_SESSION['gender'] = $_POST['gender'];
+    $_SESSION['phone'] = $_POST['phone'];
+
     $view = new Template();
     echo $view->render('views/profile.html');
 });
 
+// interests form
 $f3->route('POST /interests', FUNCTION()
 {
+    // get post variables from previous form
+    $_SESSION['email'] = $_POST['email'];
+    $_SESSION['state'] = $_POST['state'];
+    $_SESSION['seeking'] = $_POST['seeking'];
+    $_SESSION['bio'] = $_POST['bio'];
+
     $view = new Template();
     echo $view->render('views/interests.html');
+});
+
+// profile summary
+$f3->route('POST /summary', FUNCTION()
+{
+    // get post variables from last form
+    $_SESSION['indoor'] = $_POST['indoor'];
+    $_SESSION['outdoor'] = $_POST['outdoor'];
+
+    $view = new Template();
+    echo $view->render('views/summary.html');
 });
 
 //run Fat-free
