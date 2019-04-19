@@ -1,5 +1,5 @@
 window.onload = function() {
-  document.getElementById("states").innerHTML = states();
+  document.getElementById("state").innerHTML = states();
 };
 
 let stateNames = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
