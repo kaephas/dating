@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile Summary</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- profile info table-->
+            <div class="col-md-6">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Name: <?php echo $_SESSION['first'] . $_SESSION['last']; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Gender: <?php echo $_SESSION['gender']; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Age: <?php echo $_SESSION['age'] ?></td>
+                        </tr>
+                        <tr>
+                            <td>Phone: <?php echo $_SESSION['phone']; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Email: <?php echo $_SESSION['email'];?></td>
+                        </tr>
+                        <tr>
+                            <td>State: <?php echo strtoupper($_SESSION['state']); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Seeking <?php echo $_SESSION['seeking']; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Interests: <?php
+                                    foreach($_SESSION['interests'] as interest) {
+                                        echo interest . " ";
+                                    };
+                                ?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- profile image and bio-->
+            <div class="col-md-6">
+                <!-- image -->
+                <div class="row">
+                    <img src="profile.png" alt="profile image">
+                </div>
+                <!-- bio -->
+                <div class="row">
+                    <h3>Biography</h3>
+                    <p class="text-center">
+                        <?php
+                            echo $_SESSION['bio'];
+                        ?>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
