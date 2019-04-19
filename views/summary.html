@@ -13,7 +13,7 @@
 </head>
 <body>
     <nav class="nav">
-        <a class="nav-link" href="/">FF Match</a>
+        <a class="nav-link" href="IT328/dating">FF Match</a>
     </nav>
     <div class="container">
         <div class="row">
@@ -22,7 +22,7 @@
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
-                            <td>Name: {{@SESSION.first}} {{@SESSION.last}} </td>
+                            <td class="table-top">Name: {{@SESSION.first}} {{@SESSION.last}} </td>
                         </tr>
                         <tr>
                             <td>Gender: {{@SESSION.gender}}</td>
@@ -43,7 +43,7 @@
                             <td>Seeking {{@SESSION.seeking}}</td>
                         </tr>
                         <tr>
-                            <td>Interests: {{@SESSION.interests}}</td>
+                            <td class="table-bottom">Interests: {{@SESSION.interests}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -53,7 +53,7 @@
                 <!-- image -->
                 <div class="row">
                     <div class="col">
-                        <img src="images/profile.jpg" class="img-fluid" alt="profile image">
+                        <img src="images/profile.jpg" class="img-fluid rounded" alt="profile image">
                     </div>
                 </div>
                 <!-- bio -->
