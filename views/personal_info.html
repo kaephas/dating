@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--
+    Kaephas Kain
+    4-17-2019
+    personal_info.html
+
+    personal info form for dating site assignment
+    -->
     <meta charset="UTF-8">
     <!-- Bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -36,15 +43,16 @@
                                 <input type="text" id="age" name="age" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="gender">Gender</label>
-                            <div id="gender">
-                                <label>
-                                    <input name="gender" type="radio" value="Male"> Male
-                                </label>
-                                <label>
-                                    <input name="gender" type="radio" value="Female"> Female
-                                </label>
-                            </div>
+                            <fieldset>
+                                <legend>Gender</legend>
+                                    <label class="gender">
+                                        <input name="gender" type="radio" value="Male"> Male
+                                    </label>
+                                &nbsp;&nbsp;
+                                    <label class="gender">
+                                        <input name="gender" type="radio" value="Female"> Female
+                                    </label>
+                            </fieldset>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
@@ -54,7 +62,7 @@
                 <div class="col-md-4">
                     <div class="container text-center" id="note">
                         <p><span class="bold">Note:</span> All information entered is protected by our
-                            <a href="" id="privacy">privacy policy</a>. Profile information can only be
+                            <a href="">privacy policy</a>. Profile information can only be
                             viewed by others with your permission.</p>
                     </div>
                 </div>  <!-- end column 2 -->
