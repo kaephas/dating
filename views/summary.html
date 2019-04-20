@@ -19,34 +19,16 @@
         <div class="row">
             <!-- profile info table-->
             <div class="col-md-6">
-                <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <td class="table-top">Name: {{@SESSION.first}} {{@SESSION.last}} </td>
-                        </tr>
-                        <tr>
-                            <td>Gender: {{@SESSION.gender}}</td>
-                        </tr>
-                        <tr>
-                            <td>Age: {{@SESSION.age}}</td>
-                        </tr>
-                        <tr>
-                            <td>Phone: {{@SESSION.phone}}</td>
-                        </tr>
-                        <tr>
-                            <td>Email: {{@SESSION.email}}</td>
-                        </tr>
-                        <tr>
-                            <td>State: {{@SESSION.state}}</td>
-                        </tr>
-                        <tr>
-                            <td>Seeking {{@SESSION.seeking}}</td>
-                        </tr>
-                        <tr>
-                            <td class="table-bottom">Interests: {{@SESSION.interests}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <ul class="list-group">
+                    <li class="list-group-item">Name: {{@SESSION.first}} {{@SESSION.last}}</li>
+                    <li class="list-group-item">Gender: {{@SESSION.gender}}</li>
+                    <li class="list-group-item">Age: {{@SESSION.age}}</li>
+                    <li class="list-group-item">Phone: {{@SESSION.phone}}</li>
+                    <li class="list-group-item">Email: {{@SESSION.email}}</li>
+                    <li class="list-group-item">State: {{@SESSION.state}}</li>
+                    <li class="list-group-item">Seeking {{@SESSION.seeking}}</li>
+                    <li class="list-group-item">Interests: {{@SESSION.interests}}</li>
+                </ul>
             </div>
             <!-- profile image and bio-->
             <div class="col-md-6">

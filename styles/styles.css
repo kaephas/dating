@@ -66,24 +66,3 @@ label {
     vertical-align: text-bottom;
     margin-bottom: 0;
 }
-
-table tr:first-child td:first-child {
-    border-top-left-radius: 5px;
-}
-
-table tr:first-child td:last-child {
-    border-top-right-radius: 5px;
-}
-
-table tr:last-child td:first-child {
-    border-bottom-left-radius: 5px;
-}
-
-table tr:last-child td:last-child {
-    border-bottom-right-radius: 5px;
-}
-
-table {
-    border: 1px solid lightgrey !important;
-    border-radius: 5px;
-}
