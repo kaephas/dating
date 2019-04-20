@@ -1,3 +1,10 @@
+/*
+ * Kaephas Kain
+ * 4-17-2019
+ * profile.js
+ *
+ * Fills select box with all 50 states
+ */
 window.onload = function() {
   document.getElementById("state").innerHTML = states();
 };
@@ -19,7 +26,7 @@ function states() {
         } else {
             output += ">";
         }
-        output += stateNames[i] + "</option>";
+        output += stateNames[i].toUpperCase() + "</option>";
     }
     return output;
 }
