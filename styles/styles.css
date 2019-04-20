@@ -90,6 +90,6 @@ legend {
 }
 
 /* remove bold from gender radio button labels */
-.gender {
+.radio {
     font-weight: normal;
 }
