@@ -28,7 +28,9 @@ nav a {
     border-radius: 5px;
 }
 
+/* block quotes */
 blockquote {
+    font-style: italic;
     margin-left: 25px;
 }
 
@@ -38,31 +40,56 @@ img {
     margin: 15px;
 }
 
+/* keep profile image from growing too big */
+#profileImg {
+    max-height: 350px;
+}
+
+/* labels should be bold */
 label {
     font-weight: bold;
 }
 
+/* using <strong> is bad right? */
 .bold {
     font-weight: bold;
 }
 
+/* privacy notice box coloring & spacing */
 #note {
     padding: 10px;
     background: lightgrey;
     margin-bottom: 25px;
 }
 
+/* privacy notice text remove margins */
 #note p {
     margin: 0;
 }
 
-#privacy {
-    text: blue;
-}
-
+/* spacing from checkbox to label, match vertical alignment */
 .checkbox {
     font-weight: normal;
     padding-left: 5px;
     vertical-align: text-bottom;
     margin-bottom: 0;
+}
+
+/* biography header */
+h4 {
+    font-weight: normal;
+}
+
+/* match legend styles to label styles */
+legend {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: .5rem;
+}
+
+/* remove bold from gender radio button labels */
+.gender {
+    font-weight: normal;
 }
