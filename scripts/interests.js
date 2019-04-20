@@ -1,3 +1,11 @@
+/*
+ * Kaephas Kain
+ * 4-17-2019
+ * interests.js
+ *
+ * writes checkboxes to interests form from indoor/outdoor arrays
+ *
+ */
 window.onload = function() {
     document.getElementById('indoor').innerHTML = indoor();
     document.getElementById('outdoor').innerHTML = outdoor();
@@ -34,3 +42,5 @@ function outdoor() {
 
     return output;
 }
+
+//
