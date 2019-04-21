@@ -16,6 +16,10 @@ function indoor() {
         "tv", "movies", "cooking", "board games", "puzzles", "reading", "playing cards", "video games"
     ];
 
+    // <div class="col-md-3 col-sm-6">
+    //     <input type="checkbox" name="indoor[]" id="{interest}" value="{interest}">
+    //     <label for="{interest}" class="checkbox">{interest}</label>"
+    // </div>
     let output = "";
     indoorInterests.forEach(function(interest) {
         output += '<div class="col-md-3 col-sm-6">' +
@@ -32,6 +36,10 @@ function outdoor() {
         "hiking", "biking", "swimming", "collecting", "walking", "climbing"
     ];
 
+    // <div class="col-md-3 col-sm-6">
+    //     <input type="checkbox" name="outdoor[]" id="{interest}" value="{interest}">
+    //     <label for="{interest}" class="checkbox">{interest}</label>"
+    // </div>
     let output = "";
     outdoorInterests.forEach(function(interest) {
         output += '<div class="col-md-3 col-sm-6">' +
@@ -42,5 +50,3 @@ function outdoor() {
 
     return output;
 }
-
-//

@@ -3,7 +3,7 @@
  * 4-12-2019
  * styles.css
  *
- * styles for home.html
+ * styles for dating site
  */
 
 /* Nav styles */
@@ -29,7 +29,8 @@ nav a {
 }
 
 /* block quotes */
-blockquote {
+.blockquote {
+    font-size: 1em;
     font-style: italic;
     margin-left: 25px;
 }
