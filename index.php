@@ -29,6 +29,8 @@ $f3->set('states', array("Alabama", "Alaska", "Arizona", "Arkansas", "California
     "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"));
 
 $f3->set('outInterests', array("hiking", "biking", "swimming", "collecting", "walking", "climbing"));
+$f3->set('inInterests',
+    array("tv", "movies", "cooking", "board games", "puzzles", "reading", "playing cards", "video games"));
 
 //Turn on Fat-free error reporting
 $f3->set('DEBUG', 3);
@@ -46,7 +48,7 @@ $f3->route('GET|POST /personal', function($f3)
     // reset session for first form
     $_SESSION = array();
     // if any values have been posted
-    if(!empty("$_POST")) {
+    if(!empty($_POST)) {
         // first, last, age, gender, phone
         $first = $_POST['first'];
         $last = $_POST['last'];
@@ -83,59 +85,75 @@ $f3->route('GET|POST /personal', function($f3)
 // profile information form
 $f3->route('GET|POST /profile', function($f3)
 {
-    // email, state, seeking, bio
-    $email = $_POST['email'];
-    $state = $_POST['state'];
-    $seeking = $_POST['seeking'];
-    $bio = $_POST['bio'];
+    if(!empty($_POST)) {
+        // email, state, seeking, bio
+        $email = $_POST['email'];
+        $state = $_POST['state'];
+        $seeking = $_POST['seeking'];
+        $bio = $_POST['bio'];
 
-    $f3->set('email', $email);
-    $f3->set('state', $state);
-    $f3->set('seeking', $seeking);
-    $f3->set('bio', $bio);
+        $f3->set('email', $email);
+        $f3->set('state', $state);
+        $f3->set('seeking', $seeking);
+        $f3->set('bio', $bio);
 
-    if(validProfile()) {
-        $_SESSION['email'] = $email;
-        $_SESSION['state'] = $state;
-        $_SESSION['seeking'] = $seeking;
-        $_SESSION['bio'] = $bio;
+        if(validProfile()) {
+            $_SESSION['email'] = $email;
+            $_SESSION['state'] = $state;
+            $_SESSION['seeking'] = $seeking;
+            $_SESSION['bio'] = $bio;
 
-        $f3->reroute('/interests');
+            $f3->reroute('/interests');
+        }
     }
-
 
     $view = new Template();
     echo $view->render('views/profile.html');
 });
 
 // interests form
-$f3->route('GET|POST /interests', FUNCTION()
+$f3->route('GET|POST /interests', function($f3)
 {
-    // get post variables from previous form
-    $_SESSION['email'] = $_POST['email'];
-    $_SESSION['state'] = strtoupper($_POST['state']);
-    $_SESSION['seeking'] = $_POST['seeking'];
-    $_SESSION['bio'] = $_POST['bio'];
+    // submit button has been pressed
+    if(!empty($_POST)) {
+        $outdoor = $_POST['outdoor'];
+        $indoor = $_POST['indoor'];
 
+        $f3->set('outdoor', $outdoor);
+        $f3->set('indoor', $indoor);
+
+        // all options selected are in the original arrays (or none selected)
+        if(validInterests()) {
+            $_SESSION['outdoor'] = $outdoor;
+            $_SESSION['indoor'] = $indoor;
+
+            // combine interests
+            $interests = "";
+            if(!empty($_SESSION['indoor'])) {
+                foreach($_SESSION['indoor'] as $interest) {
+                    $interests .= $interest . ", ";
+                }
+            }
+            if(!empty($_SESSION['outdoor'])) {
+                foreach($_SESSION['outdoor'] as $interest) {
+                    $interests .= $interest . ", ";
+                }
+            }
+            // remove trailing comma and space
+            $_SESSION['interests'] = substr($interests,0, -2);
+            // go to summary page
+            $f3->reroute('/summary');
+        }
+    }
+
+    // if 1st load or errors after posting
     $view = new Template();
     echo $view->render('views/interests.html');
 });
 
 // profile summary
-$f3->route('POST /summary', FUNCTION()
+$f3->route('GET /summary', function()
 {
-    // get post variables from last form
-    $_SESSION['indoor'] = $_POST['indoor'];
-    $_SESSION['outdoor'] = $_POST['outdoor'];
-    $interests = "";
-    foreach($_POST['indoor'] as $interest) {
-        $interests .= $interest . " ";
-    }
-    foreach($_POST['outdoor'] as $interest) {
-        $interests .= $interest . " ";
-    }
-    $_SESSION['interests'] = substr($interests,0, -1);
-
     $view = new Template();
     echo $view->render('views/summary.html');
 });

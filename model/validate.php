@@ -61,8 +61,21 @@ function validProfile() {
 }
 
 function validInterests() {
+    global $f3;
+    $isValid = true;
+    if(!validIndoor($f3->get('indoor'))) {
+        $isValid = false;
+        $f3->set('errors["indoor"]', "Please choose a valid indoor option.");
+    }
+    if(!validOutdoor($f3->get('outdoor'))) {
+        $isValid = false;
+        $f3->set('errors["outdoor"]', "Please choose a valid indoor option.");
+    }
 
+    return $isValid;
+    //return false;
 }
+
 
 // check if alphabetic
 function validName($name) {
@@ -94,26 +107,36 @@ function validEmail($email) {
 }
 
 // check if outdoor interests chosen are valid options
-function validOutdoor($outdoor) {
+function validOutdoor($out) {
     // not required
-    $found = false;
-//    foreach($outdoor as $interest) {
-//        if(!in_array($interest, ))
-//    }
-    return empty($outdoor) || $found;
+    global $f3;
+    $valid = true;
+    foreach($out as $interest) {
+        if(!in_array($interest, $f3->get('outInterests'))) {
+            $valid = false;
+        }
+    }
+    return empty($out) || $valid;
 
 }
 
 // check if indoor interests chosen are valid options
-function validIndoor($indoor) {
+function validIndoor($in) {
     // not required
-
+    global $f3;
+    $valid = true;
+    foreach($in as $interest) {
+        if(!in_array($interest, $f3->get('inInterests'))) {
+            $valid = false;
+        }
+    }
+    return empty($in) || $valid;
 }
 
 // not on requirements
 function validGender($gender) {
     // either not chosen OR one of the radio gender options
-    return !isset($gender) || in_array($gender, array('male', 'female'));
+    return !isset($gender) || in_array($gender, array('Male', 'Female'));
 }
 
 function validState($state) {
