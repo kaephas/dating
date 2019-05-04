@@ -20,13 +20,13 @@ let stateNames = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Col
 function states() {
     let output = "";
     for (let i = 0; i < stateNames.length; i++) {
-        output += "<option";
-        // default selection WASHINGTON
-        if(stateNames[i] === "Washington") {
-            output += " selected>";
-        } else {
-            output += ">";
-        }
+        output += "<option>";
+        // default selection WASHINGTON = > move stickiness (and loop?) to php/f3
+        // if(stateNames[i] === "Washington") {
+        //     output += " selected>";
+        // } else {
+        //     output += ">";
+        // }
         // all upper case to match example
         output += stateNames[i].toUpperCase() + "</option>";
     }
