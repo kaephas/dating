@@ -84,7 +84,24 @@ $f3->route('GET|POST /personal', function($f3)
 $f3->route('GET|POST /profile', function($f3)
 {
     // email, state, seeking, bio
+    $email = $_POST['email'];
+    $state = $_POST['state'];
+    $seeking = $_POST['seeking'];
+    $bio = $_POST['bio'];
 
+    $f3->set('email', $email);
+    $f3->set('state', $state);
+    $f3->set('seeking', $seeking);
+    $f3->set('bio', $bio);
+
+    if(validProfile()) {
+        $_SESSION['email'] = $email;
+        $_SESSION['state'] = $state;
+        $_SESSION['seeking'] = $seeking;
+        $_SESSION['bio'] = $bio;
+
+        $f3->reroute('/interests');
+    }
 
 
     $view = new Template();
@@ -92,7 +109,7 @@ $f3->route('GET|POST /profile', function($f3)
 });
 
 // interests form
-$f3->route('POST /interests', FUNCTION()
+$f3->route('GET|POST /interests', FUNCTION()
 {
     // get post variables from previous form
     $_SESSION['email'] = $_POST['email'];

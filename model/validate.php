@@ -40,7 +40,24 @@ function validPersonal() {
 }
 
 function validProfile() {
+    global $f3;
+    $isValid = true;
+    // email, state, seeking
+    if(!validEmail($f3->get('email'))) {
+        $isValid = false;
+        $f3->set('errors["email"]', "Please enter a valid email.");
+    }
 
+    if(!validState($f3->get('state'))) {
+        $isValid = false;
+        $f3->set('errors["state"]', "Please choose a state.");
+    }
+
+    if(!validGender($f3->get('seeking'))) {
+        $isValid = false;
+        $f3->set('errors["seeking"]', "An option besides the choices was chosen.");
+    }
+    return $isValid;
 }
 
 function validInterests() {
@@ -95,7 +112,11 @@ function validIndoor($indoor) {
 
 // not on requirements
 function validGender($gender) {
-    // make sure only male or female chosen if either
-    return !isset($gender) || !in_array($gender, array('male', 'female'));
+    // either not chosen OR one of the radio gender options
+    return !isset($gender) || in_array($gender, array('male', 'female'));
+}
 
+function validState($state) {
+    global $f3;
+    return in_array(ucfirst(strtolower($state)), $f3->get('states'));
 }
