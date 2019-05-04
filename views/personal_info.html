@@ -27,36 +27,55 @@
         <h1>Personal Information</h1>
         <hr>
 
-        <form action="profile" method="post">
+        <form action="#" method="post">
             <div class="row">
                 <div class="col-md-8">
                         <div class="form-group">
                             <label for="first">First Name</label>
-                            <input type="text" id="first" name="first" class="form-control">
+                            <check if="{{ @errors['first'] }}">
+                                <span class="text-danger">{{ @errors['first'] }}</span>
+                            </check>
+                            <input type="text" id="first" name="first" class="form-control" value="{{ @first }}">
                         </div>
                         <div class="form-group">
                             <label for="last">Last Name</label>
-                            <input type="text" id="last" name="last" class="form-control">
+                            <check if="{{ @errors['last'] }}">
+                                <span class="text-danger">{{ @errors['last'] }}</span>
+                            </check>
+                            <input type="text" id="last" name="last" class="form-control" value="{{ @last }}">
                         </div>
                         <div class="form-group">
                             <label for="age">Age</label>
-                                <input type="text" id="age" name="age" class="form-control">
+                            <check if="{{ @errors['age'] }}">
+                                <span class="text-danger">{{ @errors['age'] }}</span>
+                            </check>
+                                <input type="text" id="age" name="age" class="form-control" value="{{ @age }}">
                         </div>
                         <div class="form-group">
                             <fieldset>
                                 <legend>Gender</legend>
-                                    <label class="radio">
-                                        <input name="gender" type="radio" value="Male"> Male
-                                    </label>
+                                <check if="{{ @errors['gender'] }}">
+                                    <span class="text-danger">{{ @errors['gender'] }}</span>
+                                </check>
+                                <label class="radio">
+                                    <input name="gender" type="radio" value="Male"
+                                    <check if="{{ @gender == 'Male' }}">checked</check>
+                                    > Male
+                                </label>
                                 &nbsp;&nbsp;
-                                    <label class="radio">
-                                        <input name="gender" type="radio" value="Female"> Female
-                                    </label>
+                                <label class="radio">
+                                    <input name="gender" type="radio" value="Female"
+                                    <check if="{{ @gender == 'Female' }}">checked</check>
+                                    > Female
+                                </label>
                             </fieldset>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
-                            <input type="text" id="phone" name="phone" class="form-control">
+                            <check if="{{ @errors['phone'] }}">
+                                <span class="text-danger">{{ @errors['phone'] }}</span>
+                            </check>
+                            <input type="text" id="phone" name="phone" class="form-control" value="{{ @phone }}">
                         </div>
                 </div>  <!-- end column 1 -->
                 <div class="col-md-4">

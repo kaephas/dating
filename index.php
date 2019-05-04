@@ -15,36 +15,77 @@ error_reporting(E_ALL);
 
 //require autoload file
 require_once('vendor/autoload.php');
+require_once('model/validate.php');
 
 //create an instance of the Base class
-$f3 = Base:: instance();
+$f3 = Base::instance();
+
+$f3->set('states', array("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
+    "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
+    "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
+    "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
+    "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
+    "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
+    "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"));
+
+$f3->set('outInterests', array("hiking", "biking", "swimming", "collecting", "walking", "climbing"));
 
 //Turn on Fat-free error reporting
-$f3 -> set('DEBUG', 3);
+$f3->set('DEBUG', 3);
 
 //Define a default route (dating splash page)
-$f3->route('GET /', FUNCTION()
+$f3->route('GET /', function()
 {
     $view = new Template();
     echo $view->render('views/home.html');
 });
 
 // personal information form
-$f3->route('POST /personal', FUNCTION()
+$f3->route('GET|POST /personal', function($f3)
 {
+    // reset session for first form
+    $_SESSION = array();
+    // if any values have been posted
+    if(!empty("$_POST")) {
+        // first, last, age, gender, phone
+        $first = $_POST['first'];
+        $last = $_POST['last'];
+        $age = $_POST['age'];
+        $gender = $_POST['gender'];
+        $phone = $_POST['phone'];
+
+        // add to f3 hive
+        $f3->set('first', $first);
+        $f3->set('last', $last);
+        $f3->set('age', $age);
+        $f3->set('gender', $gender);
+        $f3->set('phone', $phone);
+
+        // validate
+        if(validPersonal()) {
+            // set session variables
+            $_SESSION['first'] = $first;
+            $_SESSION['last'] = $last;
+            $_SESSION['age'] = $age;
+            $_SESSION['gender'] = $gender;
+            $_SESSION['phone'] = $phone;
+
+            // to next form page
+            $f3->reroute('/profile');
+        }
+
+    }
+    // GET  or  any invalid form data
     $view = new Template();
     echo $view->render('views/personal_info.html');
 });
 
 // profile information form
-$f3->route('POST /profile', FUNCTION()
+$f3->route('GET|POST /profile', function($f3)
 {
-    // get post variables from previous form
-    $_SESSION['first'] = $_POST['first'];
-    $_SESSION['last'] = $_POST['last'];
-    $_SESSION['age'] = $_POST['age'];
-    $_SESSION['gender'] = $_POST['gender'];
-    $_SESSION['phone'] = $_POST['phone'];
+    // email, state, seeking, bio
+
+
 
     $view = new Template();
     echo $view->render('views/profile.html');
