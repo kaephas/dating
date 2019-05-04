@@ -30,36 +30,43 @@
         <form action="#" method="post">
             <fieldset>
             <label>In-door Interests</label>
-                <br>
-                <div class="row" id="indoor">
+            <check if="{{ @errors['indoor'] }}">
+                <span class="text-danger">{{ @errors['indoor'] }}</span>
+            </check>
+            <br>
+            <div class="row" id="indoor">
 
-                    <repeat group="{{ @inInterests }}" value="{{ @interest }}">
-                        <div class="col-md-3 col-sm-6">
-                            <input type="checkbox" name="indoor[]" id="{{ @interest }}" value="{{ @interest }}"
-                            <check if="{{ !empty(@indoor) && in_array(@interest, @indoor) }}">
-                                checked
-                            </check>
-                            >
-                            <label for="{{ @interest }}" class="checkbox">{{ @interest }}</label>
-                        </div>
-                    </repeat>
+                <repeat group="{{ @inInterests }}" value="{{ @interest }}">
+                    <div class="col-md-3 col-sm-6">
+                        <input type="checkbox" name="indoor[]" id="{{ str_replace(' ', '', @interest) }}"
+                               value="{{ @interest }}"
+                        <check if="{{ !empty(@indoor) && in_array(@interest, @indoor) }}">
+                            checked
+                        </check>
+                        >
+                        <label for="{{ str_replace(' ', '', @interest) }}" class="checkbox">{{ @interest }}</label>
+                    </div>
+                </repeat>
 
-                </div> <!-- end indoor row -->
+            </div> <!-- end indoor row -->
             </fieldset>
             <br>
         <!-- Out-door Interests-->
             <fieldset>
                 <label>Out-door Interests</label>
+                <check if="{{ @errors['outdoor'] }}">
+                    <span class="text-danger">{{ @errors['outdoor'] }}</span>
+                </check>
                 <br>
                 <div class="row" id="outdoor">
                     <repeat group="{{ @outInterests }}" value="{{ @outerest }}">
                         <div class="col-md-3 col-sm-6">
-                            <input type="checkbox" name="outdoor[]" id="{{ @outerest }}" value="{{ @outerest }}"
+                            <input type="checkbox" name="outdoor[]" id="{{ str_replace(' ', '', @outerest) }}" value="{{ @outerest }}"
                             <check if="{{ !empty(@outdoor) && in_array(@outerest, @outdoor) }}">
                                 checked
                             </check>
                             >
-                            <label for="{{ @outerest }}" class="checkbox">{{ @outerest }}</label>
+                            <label for="{{ str_replace(' ', '', @outerest) }}" class="checkbox">{{ @outerest }}</label>
                         </div>
                     </repeat>
                 </div> <!-- end outdoor row -->

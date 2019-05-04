@@ -112,41 +112,47 @@ $f3->route('GET|POST /profile', function($f3)
 });
 
 // interests form
-$f3->route('GET|POST /interests', function($f3)
+$f3->route('POST /interests', function($f3)
 {
     // submit button has been pressed
-    if(!empty($_POST)) {
-        $outdoor = $_POST['outdoor'];
-        $indoor = $_POST['indoor'];
+    $outdoor = $_POST['outdoor'];
+    $indoor = $_POST['indoor'];
 
-        $f3->set('outdoor', $outdoor);
-        $f3->set('indoor', $indoor);
+    $f3->set('outdoor', $outdoor);
+    $f3->set('indoor', $indoor);
 
-        // all options selected are in the original arrays (or none selected)
-        if(validInterests()) {
-            $_SESSION['outdoor'] = $outdoor;
-            $_SESSION['indoor'] = $indoor;
+    // all options selected are in the original arrays (or none selected)
+    if (validInterests()) {
+        $_SESSION['outdoor'] = $outdoor;
+        $_SESSION['indoor'] = $indoor;
 
-            // combine interests
-            $interests = "";
-            if(!empty($_SESSION['indoor'])) {
-                foreach($_SESSION['indoor'] as $interest) {
-                    $interests .= $interest . ", ";
-                }
+        // combine interests
+        $interests = "";
+        if (!empty($_SESSION['indoor'])) {
+            foreach ($_SESSION['indoor'] as $interest) {
+                $interests .= $interest . ", ";
             }
-            if(!empty($_SESSION['outdoor'])) {
-                foreach($_SESSION['outdoor'] as $interest) {
-                    $interests .= $interest . ", ";
-                }
-            }
-            // remove trailing comma and space
-            $_SESSION['interests'] = substr($interests,0, -2);
-            // go to summary page
-            $f3->reroute('/summary');
         }
-    }
+        if (!empty($_SESSION['outdoor'])) {
+            foreach ($_SESSION['outdoor'] as $interest) {
+                $interests .= $interest . ", ";
+            }
+        }
+        // remove trailing comma and space
+        $_SESSION['interests'] = substr($interests, 0, -2);
 
-    // if 1st load or errors after posting
+        // go to summary page
+        $f3->reroute('/summary');
+    }
+    // didn't validate
+    $view = new Template();
+    echo $view->render('views/summary.html');
+});
+
+// if 1st load or errors after posting
+$f3->route('GET /interests', function($f3)
+{
+
     $view = new Template();
     echo $view->render('views/interests.html');
 });

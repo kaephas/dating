@@ -108,32 +108,40 @@ function validEmail($email) {
 
 // check if outdoor interests chosen are valid options
 function validOutdoor($out) {
-    // not required
+    // not required field
     global $f3;
     $valid = true;
-    foreach($out as $interest) {
-        if(!in_array($interest, $f3->get('outInterests'))) {
-            $valid = false;
+
+    if(!empty($out)) {
+        foreach($out as $interest) {
+            if(!in_array($interest, $f3->get('outInterests'))) {
+                $valid = false;
+            }
         }
     }
-    return empty($out) || $valid;
+
+    return $valid;
 
 }
 
 // check if indoor interests chosen are valid options
 function validIndoor($in) {
-    // not required
+    // not required field
     global $f3;
     $valid = true;
-    foreach($in as $interest) {
-        if(!in_array($interest, $f3->get('inInterests'))) {
-            $valid = false;
+
+    if(!empty($in)) {
+        foreach($in as $interest) {
+            if(!in_array($interest, $f3->get('inInterests'))) {
+                $valid = false;
+            }
         }
     }
-    return empty($in) || $valid;
+
+    return $valid;
 }
 
-// not on requirements
+// not on assignment requirements requirements
 function validGender($gender) {
     // either not chosen OR one of the radio gender options
     return !isset($gender) || in_array($gender, array('Male', 'Female'));
