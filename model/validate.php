@@ -94,9 +94,8 @@ function validAge($age) {
 // check if phone is valid
 function validPhone($phone) {
     // required field
-    $pattern = "/\d{3}[-]?\d{3}[-]?\d{4}/";
-    return is_numeric($phone) && preg_match($pattern, $phone);
-
+    $pattern = "/^\(?\d{3}\)?[ .-]?\d{3}[ .-]?\d{4}$/";
+    return preg_match($pattern, $phone);
 }
 
 // check if email is valid
@@ -112,6 +111,7 @@ function validOutdoor($out) {
     global $f3;
     $valid = true;
 
+    // empty ok, if not, make sure the value is in original array
     if(!empty($out)) {
         foreach($out as $interest) {
             if(!in_array($interest, $f3->get('outInterests'))) {
@@ -119,7 +119,6 @@ function validOutdoor($out) {
             }
         }
     }
-
     return $valid;
 
 }
@@ -130,6 +129,7 @@ function validIndoor($in) {
     global $f3;
     $valid = true;
 
+    // empty ok, if not, make sure the value is in original array
     if(!empty($in)) {
         foreach($in as $interest) {
             if(!in_array($interest, $f3->get('inInterests'))) {
@@ -137,7 +137,6 @@ function validIndoor($in) {
             }
         }
     }
-
     return $valid;
 }
 
@@ -149,5 +148,6 @@ function validGender($gender) {
 
 function validState($state) {
     global $f3;
+    // original array normal capitalization, (all caps on page to match example)
     return in_array(ucfirst(strtolower($state)), $f3->get('states'));
 }
