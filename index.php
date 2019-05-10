@@ -55,6 +55,7 @@ $f3->route('GET|POST /personal', function($f3)
         $age = $_POST['age'];
         $gender = $_POST['gender'];
         $phone = $_POST['phone'];
+        $premium = $_POST['premium'];
 
         // add to f3 hive
         $f3->set('first', $first);
@@ -62,6 +63,7 @@ $f3->route('GET|POST /personal', function($f3)
         $f3->set('age', $age);
         $f3->set('gender', $gender);
         $f3->set('phone', $phone);
+        $f3->set('premium', $premium);
 
         // validate
         if(validPersonal()) {
@@ -71,6 +73,9 @@ $f3->route('GET|POST /personal', function($f3)
             $_SESSION['age'] = $age;
             $_SESSION['gender'] = $gender;
             $_SESSION['phone'] = $phone;
+            if(!empty($premium)) {
+                $_SESSION['premium'] = true;
+            }
 
             // to next form page
             $f3->reroute('/profile');
@@ -103,7 +108,13 @@ $f3->route('GET|POST /profile', function($f3)
             $_SESSION['seeking'] = $seeking;
             $_SESSION['bio'] = $bio;
 
-            $f3->reroute('/interests');
+            // check if premium member
+            if($_SESSION['premium'] == true) {
+                $f3->reroute('/interests');
+            } else {
+                // skip interests
+                $f3->reroute('/summary');
+            }
         }
     }
 
