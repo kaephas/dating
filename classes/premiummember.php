@@ -14,7 +14,7 @@ class PremiumMember extends Member
     /**
      * @return array
      */
-    public function getInDoorInterests()
+    public function getIndoorInterests()
     {
         return $this->_inDoorInterests;
     }
@@ -22,7 +22,7 @@ class PremiumMember extends Member
     /**
      * @param array $inDoorInterests
      */
-    public function setInDoorInterests($inDoorInterests)
+    public function setIndoorInterests($inDoorInterests)
     {
         $this->_inDoorInterests = $inDoorInterests;
     }
@@ -30,7 +30,7 @@ class PremiumMember extends Member
     /**
      * @return array
      */
-    public function getOutDoorInterests()
+    public function getOutdoorInterests()
     {
         return $this->_outDoorInterests;
     }
@@ -38,7 +38,7 @@ class PremiumMember extends Member
     /**
      * @param array $outDoorInterests
      */
-    public function setOutDoorInterests($outDoorInterests)
+    public function setOutdoorInterests($outDoorInterests)
     {
         $this->_outDoorInterests = $outDoorInterests;
     }
