@@ -151,3 +151,31 @@ function validState($state) {
     // original array normal capitalization, (all caps on page to match example)
     return in_array(ucfirst(strtolower($state)), $f3->get('states'));
 }
+
+// $image = $_FILES['imageFile']]
+function validImage($image) {
+    $path = 'uploads/' . $image["name"];
+    $upload = true;
+    $type = strtolower(pathinfo($path,PATHINFO_EXTENSION));
+    $check = getimagesize($image['tmp_name']);
+    if($check !== false) {
+        // file is an image
+    } else {
+        $upload = false;
+    }
+    if(file_exists($path)) {
+        $upload = false;
+    }
+    if(!($type == 'jpg' || $type == 'png' || $type == 'jpeg')) {
+        $upload = false;
+    }
+
+    if($upload) {
+        if(move_uploaded_file($image['tmp_name'], $path)) {
+            // success
+        } else {
+            $upload = false;
+        }
+    }
+    return $upload;
+}

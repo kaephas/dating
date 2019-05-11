@@ -11,6 +11,7 @@
 
 //Turn on error reporting
 ini_set('display_errors' ,1);
+ini_set('file_uploads', 1);
 error_reporting(E_ALL);
 
 
