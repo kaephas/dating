@@ -7,20 +7,25 @@
  * Description: loads error reporting, composer, fat free, setting default route to views/home.html
  */
 
-session_start();
+
 
 //Turn on error reporting
 ini_set('display_errors' ,1);
 error_reporting(E_ALL);
 
+
+
 //require autoload file
 require_once('vendor/autoload.php');
 require_once('model/validate.php');
 
+session_start();
+
 //create an instance of the Base class
 $f3 = Base::instance();
 
-$f3->set('states', array("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
+$f3->set('states',
+    array("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
     "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
     "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
     "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
@@ -28,11 +33,22 @@ $f3->set('states', array("Alabama", "Alaska", "Arizona", "Arkansas", "California
     "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
     "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"));
 
-$f3->set('outInterests', array("hiking", "biking", "swimming", "collecting", "walking", "climbing"));
+$f3->set('outInterests',
+    array("hiking", "biking", "swimming", "collecting", "walking", "climbing"));
 $f3->set('inInterests',
     array("tv", "movies", "cooking", "board games", "puzzles", "reading", "playing cards", "video games"));
 
-//Turn on Fat-free error reporting
+//Turn on Fat-Free error reporting
+set_exception_handler(function($obj) use($f3){
+    $f3->error(500,$obj->getmessage(),$obj->gettrace());
+});
+set_error_handler(function($code,$text) use($f3)
+{
+    if (error_reporting())
+    {
+        $f3->error(500,$text);
+    }
+});
 $f3->set('DEBUG', 3);
 
 //Define a default route (dating splash page)
@@ -68,14 +84,29 @@ $f3->route('GET|POST /personal', function($f3)
         // validate
         if(validPersonal()) {
             // set session variables
-            $_SESSION['first'] = $first;
-            $_SESSION['last'] = $last;
-            $_SESSION['age'] = $age;
-            $_SESSION['gender'] = $gender;
-            $_SESSION['phone'] = $phone;
-            if(!empty($premium)) {
-                $_SESSION['premium'] = true;
+//            $_SESSION['first'] = $first;
+//            $_SESSION['last'] = $last;
+//            $_SESSION['age'] = $age;
+//            $_SESSION['gender'] = $gender;
+//            $_SESSION['phone'] = $phone;
+//            if(!empty($premium)) {
+//                $_SESSION['premium'] = true;
+//            }
+
+            // store in class
+            if($premium == true) {
+                $member = new PremiumMember();
+            } else {
+                $member = new Member();
             }
+            $member->setFname($first);
+            $member->setLname($last);
+            $member->setAge($age);
+            $member->setGender($gender);
+            $member->setPhone($phone);
+
+            $_SESSION['member'] = $member;
+
 
             // to next form page
             $f3->reroute('/profile');
@@ -103,13 +134,20 @@ $f3->route('GET|POST /profile', function($f3)
         $f3->set('bio', $bio);
 
         if(validProfile()) {
-            $_SESSION['email'] = $email;
-            $_SESSION['state'] = $state;
-            $_SESSION['seeking'] = $seeking;
-            $_SESSION['bio'] = $bio;
+//            $_SESSION['email'] = $email;
+//            $_SESSION['state'] = $state;
+//            $_SESSION['seeking'] = $seeking;
+//            $_SESSION['bio'] = $bio;
+
+            // store new data in class
+            $_SESSION['member']->setEmail($email);
+            $_SESSION['member']->setState($state);
+            $_SESSION['member']->setSeeking($seeking);
+            $_SESSION['member']->setBio($bio);
 
             // check if premium member
-            if($_SESSION['premium'] == true) {
+            if(get_class($_SESSION['member'] == 'PremiumMember')) {
+            //if($_SESSION['premium'] == true) {
                 $f3->reroute('/interests');
             } else {
                 // skip interests
@@ -134,23 +172,28 @@ $f3->route('POST /interests', function($f3)
 
     // all options selected are in the original arrays (or none selected)
     if (validInterests()) {
-        $_SESSION['outdoor'] = $outdoor;
-        $_SESSION['indoor'] = $indoor;
+//        $_SESSION['outdoor'] = $outdoor;
+//        $_SESSION['indoor'] = $indoor;
 
-        // combine interests
-        $interests = "";
-        if (!empty($_SESSION['indoor'])) {
-            foreach ($_SESSION['indoor'] as $interest) {
-                $interests .= $interest . ", ";
-            }
-        }
-        if (!empty($_SESSION['outdoor'])) {
-            foreach ($_SESSION['outdoor'] as $interest) {
-                $interests .= $interest . ", ";
-            }
-        }
-        // remove trailing comma and space
-        $_SESSION['interests'] = substr($interests, 0, -2);
+//        // combine interests
+//        $interests = "";
+//        if (!empty($_SESSION['indoor'])) {
+//            foreach ($_SESSION['indoor'] as $interest) {
+//                $interests .= $interest . ", ";
+//            }
+//        }
+//        if (!empty($_SESSION['outdoor'])) {
+//            foreach ($_SESSION['outdoor'] as $interest) {
+//                $interests .= $interest . ", ";
+//            }
+//        }
+//        // remove trailing comma and space
+//        $_SESSION['interests'] = substr($interests, 0, -2);
+
+        // add interests to object in session
+        $_SESSION['member']->setOutdoorInterests($outdoor);
+        $_SESSION['member']->setIndoorInterests($indoor);
+
 
         // go to summary page
         $f3->reroute('/summary');
@@ -161,9 +204,8 @@ $f3->route('POST /interests', function($f3)
 });
 
 // if 1st load or errors after posting
-$f3->route('GET /interests', function($f3)
+$f3->route('GET /interests', function()
 {
-
     $view = new Template();
     echo $view->render('views/interests.html');
 });
