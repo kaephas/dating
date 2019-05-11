@@ -39,16 +39,16 @@ $f3->set('inInterests',
     array("tv", "movies", "cooking", "board games", "puzzles", "reading", "playing cards", "video games"));
 
 //Turn on Fat-Free error reporting
-set_exception_handler(function($obj) use($f3){
-    $f3->error(500,$obj->getmessage(),$obj->gettrace());
-});
-set_error_handler(function($code,$text) use($f3)
-{
-    if (error_reporting())
-    {
-        $f3->error(500,$text);
-    }
-});
+//set_exception_handler(function($obj) use($f3){
+//    $f3->error(500,$obj->getmessage(),$obj->gettrace());
+//});
+//set_error_handler(function($code,$text) use($f3)
+//{
+//    if (error_reporting())
+//    {
+//        $f3->error(500,$text);
+//    }
+//});
 $f3->set('DEBUG', 3);
 
 //Define a default route (dating splash page)
@@ -95,16 +95,10 @@ $f3->route('GET|POST /personal', function($f3)
 
             // store in class
             if($premium == true) {
-                $member = new PremiumMember();
+                $member = new PremiumMember($first, $last, $age, $gender, $phone);
             } else {
-                $member = new Member();
+                $member = new Member($first, $last, $age, $gender, $phone);
             }
-            $member->setFname($first);
-            $member->setLname($last);
-            $member->setAge($age);
-            $member->setGender($gender);
-            $member->setPhone($phone);
-
             $_SESSION['member'] = $member;
 
 
@@ -146,7 +140,7 @@ $f3->route('GET|POST /profile', function($f3)
             $_SESSION['member']->setBio($bio);
 
             // check if premium member
-            if(get_class($_SESSION['member'] == 'PremiumMember')) {
+            if(get_class($_SESSION['member']) == 'PremiumMember') {
             //if($_SESSION['premium'] == true) {
                 $f3->reroute('/interests');
             } else {
@@ -203,7 +197,7 @@ $f3->route('POST /interests', function($f3)
     echo $view->render('views/summary.html');
 });
 
-// if 1st load or errors after posting
+// if 1st load
 $f3->route('GET /interests', function()
 {
     $view = new Template();
@@ -211,8 +205,9 @@ $f3->route('GET /interests', function()
 });
 
 // profile summary
-$f3->route('GET /summary', function()
+$f3->route('GET /summary', function($f3)
 {
+    $f3->set('testObject', json_encode($_SESSION['member']));
     $view = new Template();
     echo $view->render('views/summary.html');
 });

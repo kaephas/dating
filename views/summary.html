@@ -34,7 +34,7 @@
                     <li class="list-group-item">Email: {{ @SESSION.email }}</li>
                     <li class="list-group-item">State: {{ @SESSION.state }}</li>
                     <li class="list-group-item">Seeking: {{ @SESSION.seeking }}</li>
-                    <check if="{{ @SESSSION.premium == true }}">
+                    <check if="{{ get_class(@SESSION.member) == 'PremiumMember' }}">
                         <li class="list-group-item">Interests: {{ @SESSION.interests }}</li>
                     </check>
                 </ul>
@@ -60,6 +60,7 @@
             <button class="btn btn-primary">Contact Me!</button>
         </div>
     </div>
+    {{ echo @testObject }}
     <!-- bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
