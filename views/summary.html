@@ -27,15 +27,15 @@
             <!-- profile info table-->
             <div class="col-md-6">
                 <ul class="list-group">
-                    <li class="list-group-item">Name: {{ @SESSION.first }} {{ @SESSION.last }}</li>
-                    <li class="list-group-item">Gender: {{ @SESSION.gender }}</li>
-                    <li class="list-group-item">Age: {{ @SESSION.age }}</li>
-                    <li class="list-group-item">Phone: {{ @SESSION.phone }}</li>
-                    <li class="list-group-item">Email: {{ @SESSION.email }}</li>
-                    <li class="list-group-item">State: {{ @SESSION.state }}</li>
-                    <li class="list-group-item">Seeking: {{ @SESSION.seeking }}</li>
+                    <li class="list-group-item">Name: {{ @SESSION.member->getFname() }} {{ @SESSION.member->getLname() }}</li>
+                    <li class="list-group-item">Gender: {{ @SESSION.member->getGender() }}</li>
+                    <li class="list-group-item">Age: {{ @SESSION.member->getAge() }}</li>
+                    <li class="list-group-item">Phone: {{ @SESSION.member->getPhone() }}</li>
+                    <li class="list-group-item">Email: {{ @SESSION.member->getEmail() }}</li>
+                    <li class="list-group-item">State: {{ @SESSION.member->getState() }}</li>
+                    <li class="list-group-item">Seeking: {{ @SESSION.member->getSeeking() }}</li>
                     <check if="{{ get_class(@SESSION.member) == 'PremiumMember' }}">
-                        <li class="list-group-item">Interests: {{ @SESSION.interests }}</li>
+                        <li class="list-group-item">Interests: {{ @allInterests }}</li>
                     </check>
                 </ul>
             </div>
@@ -60,7 +60,6 @@
             <button class="btn btn-primary">Contact Me!</button>
         </div>
     </div>
-    {{ echo @testObject }}
     <!-- bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

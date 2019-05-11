@@ -207,7 +207,15 @@ $f3->route('GET /interests', function()
 // profile summary
 $f3->route('GET /summary', function($f3)
 {
-    $f3->set('testObject', json_encode($_SESSION['member']));
+    $interests = "";
+    foreach ($_SESSION['member']->getIndoorInterests() as $interest) {
+        $interests .= $interest . ', ';
+    }
+    foreach ($_SESSION['member']->getOutdoorInterests() as $interest) {
+        $interests .= $interest . ', ';
+    }
+    $interests = substr($interests, 0, -2);
+    $f3->set('allInterests', $interests);
     $view = new Template();
     echo $view->render('views/summary.html');
 });
