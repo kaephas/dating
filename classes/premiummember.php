@@ -10,6 +10,7 @@ class PremiumMember extends Member
 {
     private $_inDoorInterests = array();
     private $_outDoorInterests = array();
+    // private $_image;
 
     /**
      * @return array
