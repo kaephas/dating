@@ -84,18 +84,9 @@ $f3->route('GET|POST /personal', function($f3)
 
         // validate
         if(validPersonal()) {
-            // set session variables
-//            $_SESSION['first'] = $first;
-//            $_SESSION['last'] = $last;
-//            $_SESSION['age'] = $age;
-//            $_SESSION['gender'] = $gender;
-//            $_SESSION['phone'] = $phone;
-//            if(!empty($premium)) {
-//                $_SESSION['premium'] = true;
-//            }
 
             // store in class
-            if($premium == true) {
+            if($premium == 'true') {
                 $member = new PremiumMember($first, $last, $age, $gender, $phone);
             } else {
                 $member = new Member($first, $last, $age, $gender, $phone);
@@ -129,10 +120,6 @@ $f3->route('GET|POST /profile', function($f3)
         $f3->set('bio', $bio);
 
         if(validProfile()) {
-//            $_SESSION['email'] = $email;
-//            $_SESSION['state'] = $state;
-//            $_SESSION['seeking'] = $seeking;
-//            $_SESSION['bio'] = $bio;
 
             // store new data in class
             $_SESSION['member']->setEmail($email);
@@ -150,7 +137,6 @@ $f3->route('GET|POST /profile', function($f3)
             }
         }
     }
-
     $view = new Template();
     echo $view->render('views/profile.html');
 });
@@ -159,31 +145,20 @@ $f3->route('GET|POST /profile', function($f3)
 $f3->route('POST /interests', function($f3)
 {
     // submit button has been pressed
-    $outdoor = $_POST['outdoor'];
-    $indoor = $_POST['indoor'];
-
-    $f3->set('outdoor', $outdoor);
+    $validate = true;
+    if(isset($_POST['outdoor'])) {
+        $outdoor = $_POST['outdoor'];
+        //$f3->set('outdoor', $outdoor);
+        $validate = validOutdoor($outdoor);
+    }
+    if(isset($_POST['indoor'])) {
+        $indoor = $_POST['indoor'];
+        $validate = $validate && validIndoor($indoor);
+    }
     $f3->set('indoor', $indoor);
 
     // all options selected are in the original arrays (or none selected)
-    if (validInterests()) {
-//        $_SESSION['outdoor'] = $outdoor;
-//        $_SESSION['indoor'] = $indoor;
-
-//        // combine interests
-//        $interests = "";
-//        if (!empty($_SESSION['indoor'])) {
-//            foreach ($_SESSION['indoor'] as $interest) {
-//                $interests .= $interest . ", ";
-//            }
-//        }
-//        if (!empty($_SESSION['outdoor'])) {
-//            foreach ($_SESSION['outdoor'] as $interest) {
-//                $interests .= $interest . ", ";
-//            }
-//        }
-//        // remove trailing comma and space
-//        $_SESSION['interests'] = substr($interests, 0, -2);
+    if ($validate) {
 
         // add interests to object in session
         $_SESSION['member']->setOutdoorInterests($outdoor);
@@ -195,7 +170,7 @@ $f3->route('POST /interests', function($f3)
     }
     // didn't validate
     $view = new Template();
-    echo $view->render('views/summary.html');
+    echo $view->render('views/interests.html');
 });
 
 // if 1st load
@@ -208,15 +183,18 @@ $f3->route('GET /interests', function()
 // profile summary
 $f3->route('GET /summary', function($f3)
 {
-    $interests = "";
-    foreach ($_SESSION['member']->getIndoorInterests() as $interest) {
-        $interests .= $interest . ', ';
+    if(get_class($_SESSION['member']) == 'PremiumMember') {
+        $interests = "";
+        foreach ($_SESSION['member']->getIndoorInterests() as $interest) {
+            $interests .= $interest . ', ';
+        }
+        foreach ($_SESSION['member']->getOutdoorInterests() as $interest) {
+            $interests .= $interest . ', ';
+        }
+        $interests = substr($interests, 0, -2);
+        $f3->set('allInterests', $interests);
     }
-    foreach ($_SESSION['member']->getOutdoorInterests() as $interest) {
-        $interests .= $interest . ', ';
-    }
-    $interests = substr($interests, 0, -2);
-    $f3->set('allInterests', $interests);
+    $f3->set('class', get_class($_SESSION['member']));
     $view = new Template();
     echo $view->render('views/summary.html');
 });

@@ -69,7 +69,7 @@ function validInterests() {
     }
     if(!validOutdoor($f3->get('outdoor'))) {
         $isValid = false;
-        $f3->set('errors["outdoor"]', "Please choose a valid indoor option.");
+        $f3->set('errors["outdoor"]', "Please choose a valid outdoor option.");
     }
 
     return $isValid;
@@ -119,6 +119,9 @@ function validOutdoor($out) {
             }
         }
     }
+    if(!$valid) {
+        $f3->set('errors["outdoor"]', "Please choose a valid outdoor option.");
+    }
     return $valid;
 
 }
@@ -136,6 +139,9 @@ function validIndoor($in) {
                 $valid = false;
             }
         }
+    }
+    if(!$valid) {
+        $f3->set('errors["indoor"]', "Please choose a valid indoor option.");
     }
     return $valid;
 }

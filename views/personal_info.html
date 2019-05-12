@@ -78,12 +78,13 @@
                         <input type="text" id="phone" name="phone" class="form-control" value="{{ @phone }}">
                     </div>
                     <div class="form-group">
-                        <label for="premium">Premium Membership</label>
-                        <input type="checkbox" id="premium" name="premium" value="premium" class="form-control"
+                        <label>Premium Membership</label><br>
+                        <input type="checkbox" id="premium" name="premium" value="true"
                         <check if="{{ !empty(@premium) }}">
                             checked
                         </check>
                         >
+                        <label for="premium" class="checkbox">Sign me up for a Premium Account</label>
                     </div>
                 </div>  <!-- end column 1 -->
                 <div class="col-md-4">
