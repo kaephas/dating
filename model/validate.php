@@ -155,7 +155,7 @@ function validGender($gender) {
 function validState($state) {
     global $f3;
     // original array normal capitalization, (all caps on page to match example)
-    return in_array(ucfirst(strtolower($state)), $f3->get('states'));
+    return in_array(ucwords(strtolower($state)), $f3->get('states'));
 }
 
 // $image = $_FILES['imageFile']]
