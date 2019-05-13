@@ -39,6 +39,8 @@ nav a {
 img {
     border-radius: 5px !important;
     margin: 15px;
+    max-height: 500px;
+    text-align: center;
 }
 
 /* keep profile image from growing too big */
