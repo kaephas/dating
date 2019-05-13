@@ -6,6 +6,14 @@
  * Time: 23:00
  */
 
+/**
+ * Class Member represents a dating site member
+ *
+ * Stores profile information of a dating site member
+ * @author Kaephas Kain
+ * @version 1.0
+ *
+ */
 class Member
 {
     // fields
@@ -21,12 +29,13 @@ class Member
 
 
     /**
-     * Member constructor.
-     * @param $_fname
-     * @param $_lname
-     * @param $_age
-     * @param $_gender
-     * @param $_phone
+     * Member constructor setting values from personal info page
+     * @param $_fname   member's first name
+     * @param $_lname   member's last name
+     * @param $_age     member's age
+     * @param $_gender  member's gender
+     * @param $_phone   member's phone
+     * @return void
      */
     public function __construct($fname, $lname, $age, $gender, $phone)
     {
@@ -41,14 +50,20 @@ class Member
     // setters
 
     /**
-     * @param string $fname
+     * Sets first name
+     *
+     * @param string $fname     new first name
+     * @return void
      */
     public function setFname($fname) {
         $this->_fname = $fname;
     }
 
     /**
-     * @param string $lname
+     * Sets last name
+     *
+     * @param string $lname     new last name
+     * @return void
      */
     public function setLname($lname)
     {
@@ -56,7 +71,10 @@ class Member
     }
 
     /**
-     * @param int $age
+     * Sets age
+     *
+     * @param int $age  new age
+     * @return void
      */
     public function setAge($age)
     {
@@ -64,7 +82,10 @@ class Member
     }
 
     /**
-     * @param string $gender
+     * Sets gender
+     *
+     * @param string $gender    new gender
+     * @return void
      */
     public function setGender($gender)
     {
@@ -72,7 +93,10 @@ class Member
     }
 
     /**
-     * @param string $phone
+     * Sets phone number
+     *
+     * @param string $phone     new phone number
+     * @return void
      */
     public function setPhone($phone)
     {
@@ -80,15 +104,20 @@ class Member
     }
 
     /**
-     * @param string $email
+     * Sets email address
+     *
+     * @param string $email     new email
+     * @return void
      */
     public function setEmail($email)
     {
         $this->_email = $email;
     }
 
-    /**
-     * @param string $state
+    /**Sets state
+     *
+     * @param string $state     new state
+     * @return void
      */
     public function setState($state)
     {
@@ -96,7 +125,10 @@ class Member
     }
 
     /**
-     * @param string $seeking
+     * Sets seeking gender
+     *
+     * @param string $seeking   new gender
+     * @return void
      */
     public function setSeeking($seeking)
     {
@@ -104,7 +136,9 @@ class Member
     }
 
     /**
-     * @param string $bio
+     * Sets biography
+     *
+     * @param string $bio  new bio
      */
     public function setBio($bio)
     {
@@ -114,7 +148,8 @@ class Member
     // getters
 
     /**
-     * @return string
+     * Gets the first name
+     * @return string   first name
      */
     public function getFname()
     {
@@ -122,7 +157,8 @@ class Member
     }
 
     /**
-     * @return string
+     * Gets the last name
+     * @return string   last name
      */
     public function getLname()
     {
@@ -130,7 +166,8 @@ class Member
     }
 
     /**
-     * @return int
+     * Gets age
+     * @return int  age
      */
     public function getAge()
     {
@@ -138,7 +175,8 @@ class Member
     }
 
     /**
-     * @return string
+     * Gets gender
+     * @return string   gender
      */
     public function getGender()
     {
@@ -146,7 +184,8 @@ class Member
     }
 
     /**
-     * @return string
+     * Gets phone number
+     * @return string   phone number
      */
     public function getPhone()
     {
@@ -154,7 +193,8 @@ class Member
     }
 
     /**
-     * @return string
+     * Gets email address
+     * @return string   email
      */
     public function getEmail()
     {
@@ -162,7 +202,8 @@ class Member
     }
 
     /**
-     * @return string
+     * Gets state
+     * @return string   state
      */
     public function getState()
     {
@@ -170,7 +211,8 @@ class Member
     }
 
     /**
-     * @return string
+     * Gets seeking gender
+     * @return string   seeking gender
      */
     public function getSeeking()
     {
@@ -178,7 +220,8 @@ class Member
     }
 
     /**
-     * @return string
+     * Gets biography
+     * @return string   bio
      */
     public function getBio()
     {

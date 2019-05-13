@@ -1,27 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Kaephas
- * Date: 5/9/2019
- * Time: 23:05
- */
 
+/**
+ * Class PremiumMember represents a premium Member
+ * that has the ability to choose interests
+ *
+ * @author Kaephas Kain
+ * @version 1.0
+ */
 class PremiumMember extends Member
 {
     private $_inDoorInterests = array();
     private $_outDoorInterests = array();
     // private $_image;
 
-    /**
-     * @return array
-     */
-    public function getIndoorInterests()
-    {
-        return $this->_inDoorInterests;
-    }
+    // getters
 
     /**
-     * @param array $inDoorInterests
+     * Sets indoor interests choices
+     * @param array $inDoorInterests    new choices
      */
     public function setIndoorInterests($inDoorInterests)
     {
@@ -29,20 +25,31 @@ class PremiumMember extends Member
     }
 
     /**
-     * @return array
-     */
-    public function getOutdoorInterests()
-    {
-        return $this->_outDoorInterests;
-    }
-
-    /**
-     * @param array $outDoorInterests
+     * Sets outdoor interests choices
+     * @param array $outDoorInterests   new choices
      */
     public function setOutdoorInterests($outDoorInterests)
     {
         $this->_outDoorInterests = $outDoorInterests;
     }
 
+    // setters
 
+    /**
+     * Gets indoor interests choices
+     * @return array    indoor interests
+     */
+    public function getIndoorInterests()
+    {
+        return $this->_inDoorInterests;
+    }
+
+    /**
+     * Gets outdoor interests choices
+     * @return array    outdoor choices
+     */
+    public function getOutdoorInterests()
+    {
+        return $this->_outDoorInterests;
+    }
 }

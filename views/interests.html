@@ -9,6 +9,9 @@
     interests form for dating site assignment
     -->
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -29,26 +32,26 @@
 
         <form action="#" method="post">
             <fieldset>
-            <label>In-door Interests</label>
-            <check if="{{ @errors['indoor'] }}">
-                <span class="text-danger">{{ @errors['indoor'] }}</span>
-            </check>
-            <br>
-            <div class="row" id="indoor">
+                <label>In-door Interests</label>
+                <check if="{{ @errors['indoor'] }}">
+                    <span class="text-danger">{{ @errors['indoor'] }}</span>
+                </check>
+                <br>
+                <div class="row" id="indoor">
 
-                <repeat group="{{ @inInterests }}" value="{{ @interest }}">
-                    <div class="col-md-3 col-sm-6">
-                        <input type="checkbox" name="indoor[]" id="{{ str_replace(' ', '', @interest) }}"
-                               value="{{ @interest }}"
-                        <check if="{{ !empty(@indoor) && in_array(@interest, @indoor) }}">
-                            checked
-                        </check>
-                        >
-                        <label for="{{ str_replace(' ', '', @interest) }}" class="checkbox">{{ @interest }}</label>
-                    </div>
-                </repeat>
-
-            </div> <!-- end indoor row -->
+                    <repeat group="{{ @inInterests }}" value="{{ @interest }}">
+                        <div class="col-md-3 col-sm-6">
+                            <input type="checkbox" name="indoor[]" id="{{ str_replace(' ', '', @interest) }}"
+                                   value="{{ @interest }}"
+                            <check if="{{ !empty(@indoor) && in_array(@interest, @indoor)
+                                                            && in_array(@interest, @inInterests)}}">
+                                checked
+                            </check>
+                            >
+                            <label for="{{ str_replace(' ', '', @interest) }}" class="checkbox">{{ @interest }}</label>
+                        </div>
+                    </repeat>
+                </div> <!-- end indoor row -->
             </fieldset>
             <br>
         <!-- Out-door Interests-->
@@ -61,8 +64,10 @@
                 <div class="row" id="outdoor">
                     <repeat group="{{ @outInterests }}" value="{{ @outerest }}">
                         <div class="col-md-3 col-sm-6">
-                            <input type="checkbox" name="outdoor[]" id="{{ str_replace(' ', '', @outerest) }}" value="{{ @outerest }}"
-                            <check if="{{ !empty(@outdoor) && in_array(@outerest, @outdoor) }}">
+                            <input type="checkbox" name="outdoor[]" id="{{ str_replace(' ', '', @outerest) }}"
+                                   value="{{ @outerest }}"
+                            <check if="{{ !empty(@outdoor) && in_array(@outerest, @outdoor)
+                                                            && in_array(@outerest, @outInterests)}}">
                                 checked
                             </check>
                             >

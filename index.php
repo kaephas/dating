@@ -144,18 +144,22 @@ $f3->route('GET|POST /profile', function($f3)
 // interests form
 $f3->route('POST /interests', function($f3)
 {
-    // submit button has been pressed
+    // check if any values in interests and if so, are valid
     $validate = true;
-    if(isset($_POST['outdoor'])) {
+    // validate outdoor values
+    if(sizeof($_POST['outdoor']) > 0) {
+        // store in hive for stickiness
         $outdoor = $_POST['outdoor'];
-        //$f3->set('outdoor', $outdoor);
+        $f3->set('outdoor', $outdoor);
         $validate = validOutdoor($outdoor);
     }
-    if(isset($_POST['indoor'])) {
+    // validate indoor values
+    if(sizeof($_POST['indoor']) > 0) {
+        // store in hive for stickiness
         $indoor = $_POST['indoor'];
+        $f3->set('indoor', $indoor);
         $validate = $validate && validIndoor($indoor);
     }
-    $f3->set('indoor', $indoor);
 
     // all options selected are in the original arrays (or none selected)
     if ($validate) {
@@ -184,13 +188,21 @@ $f3->route('GET /interests', function()
 $f3->route('GET /summary', function($f3)
 {
     if(get_class($_SESSION['member']) == 'PremiumMember') {
+        $indoor = $_SESSION['member']->getIndoorInterests();
+        $outdoor = $_SESSION['member']->getOutdoorInterests();
         $interests = "";
-        foreach ($_SESSION['member']->getIndoorInterests() as $interest) {
-            $interests .= $interest . ', ';
+        // make sure there's something to iterate over
+        if(sizeof($indoor) > 0) {
+            foreach ($indoor as $interest) {
+                $interests .= $interest . ', ';
+            }
         }
-        foreach ($_SESSION['member']->getOutdoorInterests() as $interest) {
-            $interests .= $interest . ', ';
+        if(sizeof($outdoor) > 0) {
+            foreach ($outdoor as $interest) {
+                $interests .= $interest . ', ';
+            }
         }
+
         $interests = substr($interests, 0, -2);
         $f3->set('allInterests', $interests);
     }

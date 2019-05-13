@@ -6,7 +6,12 @@
  * Time: 18:31
  */
 
-function validPersonal() {
+/**
+ * checks if all form entries are valid
+ * @return bool if all form entries are valid
+ */
+function validPersonal()
+{
     global $f3;
     $isValid = true;
 
@@ -39,7 +44,12 @@ function validPersonal() {
 
 }
 
-function validProfile() {
+/**
+ * Checks if all profile form entries are valid
+ * @return bool     if form is valid
+ */
+function validProfile()
+{
     global $f3;
     $isValid = true;
     // email, state, seeking
@@ -60,7 +70,12 @@ function validProfile() {
     return $isValid;
 }
 
-function validInterests() {
+/**
+ * Checks if both sets of interest options are valid
+ * @return bool     if both sets of interests are valid
+ */
+function validInterests()
+{
     global $f3;
     $isValid = true;
     if(!validIndoor($f3->get('indoor'))) {
@@ -77,36 +92,70 @@ function validInterests() {
 }
 
 
-// check if alphabetic
-function validName($name) {
+/**
+ * checks if a name is valid
+ * @param string $name  word to be checked
+ * @return bool     if name is valid
+ */
+function validName($name)
+{
     // required field
     return isset($name) && $name != "" && ctype_alpha($name);
 
 }
 
-// check if numeric and 18 - 118 inclusive
-function validAge($age) {
+/**
+ * Checks if an age is valid
+ *
+ * must be numeric and between 18 and 118 inclusive
+ *
+ * @param int $age  the age to be checked
+ * @return bool     if the age is valid
+ */
+function validAge($age)
+{
     // required field
     return is_numeric($age) && $age >= 18 && $age <= 118;
 
 }
 
-// check if phone is valid
-function validPhone($phone) {
+/**
+ * Checks if a phone number is valid
+ *
+ * Can contain () around area code and - between sections
+ *
+ * @param string $phone     the phone number to check
+ * @return bool     if phone is valid
+ */
+function validPhone($phone)
+{
     // required field
     $pattern = "/^\(?\d{3}\)?[ .-]?\d{3}[ .-]?\d{4}$/";
     return preg_match($pattern, $phone);
 }
 
-// check if email is valid
-function validEmail($email) {
+/**
+ * Checks if an email is valid
+ *
+ * uses php email filter
+ * @param string $email     the email to be checked
+ * @return bool     if email is valid
+ */
+function validEmail($email)
+{
     // required field
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 
 }
 
-// check if outdoor interests chosen are valid options
-function validOutdoor($out) {
+/**
+ * Checks if chosen outdoor options are valid
+ *
+ * @param string[] $out     array of outdoor options
+ * @return bool     if options are valid
+ */
+function validOutdoor($out)
+{
     // not required field
     global $f3;
     $valid = true;
@@ -123,18 +172,23 @@ function validOutdoor($out) {
         $f3->set('errors["outdoor"]', "Please choose a valid outdoor option.");
     }
     return $valid;
-
 }
 
-// check if indoor interests chosen are valid options
-function validIndoor($in) {
+/**
+ * Checks if chosen indoor options are valid
+ *
+ * @param string[] $ind     array of indoor options
+ * @return bool     if options are valid
+ */
+function validIndoor($ind)
+{
     // not required field
     global $f3;
     $valid = true;
 
     // empty ok, if not, make sure the value is in original array
-    if(!empty($in)) {
-        foreach($in as $interest) {
+    if(!empty($ind)) {
+        foreach($ind as $interest) {
             if(!in_array($interest, $f3->get('inInterests'))) {
                 $valid = false;
             }
@@ -146,20 +200,43 @@ function validIndoor($in) {
     return $valid;
 }
 
-// not on assignment requirements requirements
-function validGender($gender) {
+/**
+ * Checks if gender is valid
+ *
+ * not a required field
+ * @param string $gender    the gender to be checked
+ * @return bool     if the gender is valid
+ */
+function validGender($gender)
+{
     // either not chosen OR one of the radio gender options
     return !isset($gender) || in_array($gender, array('Male', 'Female'));
 }
 
-function validState($state) {
+/**
+ * Checks if a selected state is valid
+ *
+ * @param string $state    the state to be checked
+ * @return bool     if the state is valid
+ */
+function validState($state)
+{
     global $f3;
     // original array normal capitalization, (all caps on page to match example)
     return in_array(ucwords(strtolower($state)), $f3->get('states'));
 }
 
-// $image = $_FILES['imageFile']]
-function validImage($image) {
+/**
+ * Checks if an image is valid for upload
+ *
+ * not too large, png, jpg, jpeg
+ *
+ * @param string $image     the path of the image to be checked
+ * @return bool     if the image is valid
+ */
+function validImage($image)
+{
+    // $image = $_FILES['imageFile']]
     $path = 'uploads/' . $image["name"];
     $upload = true;
     $type = strtolower(pathinfo($path,PATHINFO_EXTENSION));
