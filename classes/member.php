@@ -26,15 +26,16 @@ class Member
     private $_state;
     private $_seeking;
     private $_bio;
+    private $_image;
 
 
     /**
-     * Member constructor setting values from personal info page
-     * @param $_fname   member's first name
-     * @param $_lname   member's last name
-     * @param $_age     member's age
-     * @param $_gender  member's gender
-     * @param $_phone   member's phone
+     * Member constructor setting values from personal info page with default profile image
+     * @param string $fname   member's first name
+     * @param string $lname   member's last name
+     * @param int    $age     member's age
+     * @param string $gender  member's gender
+     * @param string $phone   member's phone
      * @return void
      */
     public function __construct($fname, $lname, $age, $gender, $phone)
@@ -44,6 +45,7 @@ class Member
         $this->_age = $age;
         $this->_gender = $gender;
         $this->_phone = $phone;
+        $this->_image = 'images/profile.jpg';
     }
 
 
@@ -139,10 +141,22 @@ class Member
      * Sets biography
      *
      * @param string $bio  new bio
+     * @return void
      */
     public function setBio($bio)
     {
         $this->_bio = $bio;
+    }
+
+    /**
+     * Sets the filepath of the profile image
+     *
+     * @param string $image     path of the image
+     * @return void
+     */
+    public function setImage($image)
+    {
+        $this->_image = $image;
     }
 
     // getters
@@ -226,6 +240,15 @@ class Member
     public function getBio()
     {
         return $this->_bio;
+    }
+
+    /**
+     * Gets image path
+     * @return string   image path
+     */
+    public function getImage()
+    {
+        return $this->_image;
     }
 
 }
