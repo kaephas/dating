@@ -141,11 +141,21 @@ $f3->route('GET|POST /profile', function($f3)
     echo $view->render('views/profile.html');
 });
 
-// interests form
+// if 1st load of interests
+$f3->route('GET /interests', function()
+{
+    $view = new Template();
+    echo $view->render('views/interests.html');
+});
+
+// after post interests
 $f3->route('POST /interests', function($f3)
 {
     // check if any values in interests and if so, are valid
+
+    // no values selected = ok
     $validate = true;
+
     // validate outdoor values
     if(sizeof($_POST['outdoor']) > 0) {
         // store in hive for stickiness
@@ -160,26 +170,43 @@ $f3->route('POST /interests', function($f3)
         $f3->set('indoor', $indoor);
         $validate = $validate && validIndoor($indoor);
     }
+    // image validation
+    if(!empty($_FILES['image']['name'])) {
+        // can't make image info sticky (path is not on server)
+        $image = $_FILES['image'];
+        $f3->set('image', $_FILES['image']);
+
+        // get storage path to attempt
+        $path = 'uploads/' . basename($image["name"]);
+
+        $validate =  $validate && validImage($image, $path);
+
+
+    }
 
     // all options selected are in the original arrays (or none selected)
+    // and image is either not set or has been uploaded
     if ($validate) {
+        // if file upload success
+        $upload = true;
+        if(!empty($_FILES['image']['name'])) {
+            if (move_uploaded_file($image['tmp_name'], $path)) {
+                $_SESSION['member']->setImage($path);
+            } else {
+                $upload = false;
+                $f3->set('errors["image"]', 'Error. Upload failed. Please try a different file.');
+            }
+        }
+        if($upload) {
+            // add interests to object in session
+            $_SESSION['member']->setOutdoorInterests($outdoor);
+            $_SESSION['member']->setIndoorInterests($indoor);
 
-        // add interests to object in session
-        $_SESSION['member']->setOutdoorInterests($outdoor);
-        $_SESSION['member']->setIndoorInterests($indoor);
-
-
-        // go to summary page
-        $f3->reroute('/summary');
+            // go to summary page
+            $f3->reroute('/summary');
+        }
     }
     // didn't validate
-    $view = new Template();
-    echo $view->render('views/interests.html');
-});
-
-// if 1st load
-$f3->route('GET /interests', function()
-{
     $view = new Template();
     echo $view->render('views/interests.html');
 });

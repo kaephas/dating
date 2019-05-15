@@ -229,36 +229,33 @@ function validState($state)
 /**
  * Checks if an image is valid for upload
  *
- * not too large, png, jpg, jpeg
- *
- * @param string $image     the path of the image to be checked
- * @return bool     if the image is valid
+ * @param array $image      File info for profile image
+ * @param string $path      the path of the image to be checked
+ * @return bool             if the image is valid
  */
-function validImage($image)
+function validImage($image, $path)
 {
-    // $image = $_FILES['imageFile']]
-    $path = 'uploads/' . $image["name"];
+    global $f3;
+    // $image = $_FILES['image']
+    //$path = 'uploads/' . $image["name"];
     $upload = true;
     $type = strtolower(pathinfo($path,PATHINFO_EXTENSION));
     $check = getimagesize($image['tmp_name']);
     if($check !== false) {
-        // file is an image
+        // is an image
+        // if filepath already exists
+        if(file_exists($path)) {
+            $f3->set("errors['image']", "File already exists.");
+            $upload = false;
+            // if not correct file type
+        } elseif (!($type == 'jpg' || $type == 'png' || $type == 'jpeg')) {
+            $f3->set("errors['image']", "Please choose a png, jpg, or jpeg.");
+            $upload = false;
+        }
     } else {
-        $upload = false;
-    }
-    if(file_exists($path)) {
-        $upload = false;
-    }
-    if(!($type == 'jpg' || $type == 'png' || $type == 'jpeg')) {
+        $f3->set("errors['image']", "That file isn't an image.");
         $upload = false;
     }
 
-    if($upload) {
-        if(move_uploaded_file($image['tmp_name'], $path)) {
-            // success
-        } else {
-            $upload = false;
-        }
-    }
     return $upload;
 }
