@@ -1,7 +1,12 @@
 <?php
+/**
+ * File contains a class that represents a dating site premium member.
+ * @author Kaephas Kain
+ * @version 1.0
+ */
 
 /**
- * Class PremiumMember represents a premium Member
+ * Class PremiumMember represents a premium member
  * that has the ability to choose interests
  *
  * @author Kaephas Kain

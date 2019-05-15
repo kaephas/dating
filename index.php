@@ -1,24 +1,20 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Kaephas Kain
- * Date: 2019-04-12
- * Filename: index.php
- * Description: loads error reporting, composer, fat free, setting default route to views/home.html
+ * File contains routing for dating website using fat-free framework
+ *
+ * @author Kaephas Kain
+ * @version 1.0
+ * @see https://fatfreeframework.com/3.6/home
  */
-
-
 
 //Turn on error reporting
 ini_set('display_errors' ,1);
 ini_set('file_uploads', 1);
 error_reporting(E_ALL);
 
-
-
 //require autoload file
-require_once('vendor/autoload.php');
-require_once('model/validate.php');
+require_once 'vendor/autoload.php';
+require_once 'model/validate.php';
 
 session_start();
 

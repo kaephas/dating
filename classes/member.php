@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Kaephas
- * Date: 5/9/2019
- * Time: 23:00
+ * File contains a class that represents a dating site member.
+ * @author Kaephas Kain
+ * @version 1.0
  */
 
 /**

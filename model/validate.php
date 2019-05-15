@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Kaephas
- * Date: 5/3/2019
- * Time: 18:31
+ * File contains validation functions for dating website forms
+ *
+ * @author Kaephas Kain
+ * @version 1.0
  */
 
 /**
