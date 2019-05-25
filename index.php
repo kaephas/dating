@@ -21,19 +21,12 @@ session_start();
 //create an instance of the Base class
 $f3 = Base::instance();
 
-$f3->set('states',
-    array("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
-    "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
-    "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
-    "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
-    "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
-    "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
-    "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"));
 
-$f3->set('outInterests',
-    array("hiking", "biking", "swimming", "collecting", "walking", "climbing"));
-$f3->set('inInterests',
-    array("tv", "movies", "cooking", "board games", "puzzles", "reading", "playing cards", "video games"));
+
+//$f3->set('outInterests',
+//    array("hiking", "biking", "swimming", "collecting", "walking", "climbing"));
+//$f3->set('inInterests',
+//    array("tv", "movies", "cooking", "board games", "puzzles", "reading", "playing cards", "video games"));
 
 //Turn on Fat-Free error reporting
 //set_exception_handler(function($obj) use($f3){
@@ -48,9 +41,38 @@ $f3->set('inInterests',
 //});
 $f3->set('DEBUG', 3);
 
+$db = new Database();
+
+$interests = $db->getInterests();
+
+$f3->set('inInterests', $interests[0]);
+$f3->set('outInterests', $interests[1]);
+$f3->set('maxInt', $interests[2]);
+
+$f3->set('states',
+    array("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
+        "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
+        "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
+        "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
+        "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
+        "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
+        "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"));
+
 //Define a default route (dating splash page)
-$f3->route('GET /', function()
+$f3->route('GET /', function($f3)
 {
+    print_r($f3->get('inInterests'));
+    print_r($f3->get('outInterests'));
+    print_r($f3->get('maxInt'));
+
+    if(is_int((int)"3.5")) {
+        echo '<br>' . (int)"3.5" . ' is an int';
+    } else {
+        echo '<br>' . (int)"3.5" . 'is not an int';
+    }
+
+    echo 'Size: ' . strlen("1000");
+
     $view = new Template();
     echo $view->render('views/home.html');
 });
@@ -129,6 +151,8 @@ $f3->route('GET|POST /profile', function($f3)
                 $f3->reroute('/interests');
             } else {
                 // skip interests
+                global $db;
+                $db->insertMember($_SESSION['member']);
                 $f3->reroute('/summary');
             }
         }
@@ -195,8 +219,23 @@ $f3->route('POST /interests', function($f3)
         }
         if($upload) {
             // add interests to object in session
-            $_SESSION['member']->setOutdoorInterests($outdoor);
-            $_SESSION['member']->setIndoorInterests($indoor);
+            $outInt = array();
+            $inInt = array();
+            $outOpt = $f3->get('outInterests');
+            $inOpt = $f3->get('inInterests');
+
+            foreach ($outdoor as $key) {
+                $outInt[] = $outOpt[$key];
+            }
+            foreach ($indoor as $key) {
+                $inInt[] = $inOpt[$key];
+            }
+            $_SESSION['member']->setOutdoorInterests($outInt);
+            $_SESSION['member']->setIndoorInterests($inInt);
+
+            // add to database
+            global $db;
+            $db->insertMember($_SESSION['member']);
 
             // go to summary page
             $f3->reroute('/summary');

@@ -74,22 +74,23 @@ function validProfile()
  * Checks if both sets of interest options are valid
  * @return bool     if both sets of interests are valid
  */
-function validInterests()
-{
-    global $f3;
-    $isValid = true;
-    if(!validIndoor($f3->get('indoor'))) {
-        $isValid = false;
-        $f3->set('errors["indoor"]', "Please choose a valid indoor option.");
-    }
-    if(!validOutdoor($f3->get('outdoor'))) {
-        $isValid = false;
-        $f3->set('errors["outdoor"]', "Please choose a valid outdoor option.");
-    }
-
-    return $isValid;
-    //return false;
-}
+//function validInterests()
+//{
+//    global $f3;
+//    $isValid = true;
+//    if(!validIndoor($f3->get('indoor'))) {
+//        $isValid = false;
+//        $f3->set('errors["indoor"]', "Please choose a valid indoor option.");
+//    }
+//
+//    if(!validOutdoor($f3->get('outdoor'))) {
+//        $isValid = false;
+//        $f3->set('errors["outdoor"]', "Please choose a valid outdoor option.");
+//    }
+//
+//    return $isValid;
+//    //return false;
+//}
 
 
 /**
@@ -163,7 +164,12 @@ function validOutdoor($out)
     // empty ok, if not, make sure the value is in original array
     if(!empty($out)) {
         foreach($out as $interest) {
-            if(!in_array($interest, $f3->get('outInterests'))) {
+//            if(!in_array($interest, $f3->get('outInterests'))) {
+//                $valid = false;
+//            }
+            $chars = strlen($f3->get('maxInt'));
+            $regex = "/\\d{" . strlen($interest) . "}/";
+            if(strlen($interest) > $chars || !preg_match($regex, $interest)) {
                 $valid = false;
             }
         }
@@ -189,7 +195,12 @@ function validIndoor($ind)
     // empty ok, if not, make sure the value is in original array
     if(!empty($ind)) {
         foreach($ind as $interest) {
-            if(!in_array($interest, $f3->get('inInterests'))) {
+//            if(!in_array($interest, $f3->get('inInterests'))) {
+//                $valid = false;
+//            }
+            $chars = strlen($f3->get('maxInt'));
+            $regex = "/\\d{" . strlen($interest) . "}/";
+            if(strlen($interest) > $chars || !preg_match($regex, $interest)) {
                 $valid = false;
             }
         }
@@ -259,3 +270,4 @@ function validImage($image, $path)
 
     return $upload;
 }
+
