@@ -113,14 +113,14 @@ class Database
 
         $statement->bindParam(':fname', $member->getFname());
         $statement->bindParam(':lname', $member->getLname());
-        $statement->bindParam(':age', $member->getAge());
+        $statement->bindParam(':age', $member->getAge(), 1);
         $statement->bindParam(':gender', $member->getGender());
         $statement->bindParam(':phone', $member->getPhone());
         $statement->bindParam(':email', $member->getEmail());
         $statement->bindParam(':state', $member->getState());
         $statement->bindParam(':seeking', $member->getSeeking());
         $statement->bindParam(':bio', $member->getBio());
-        $statement->bindParam(':premium', $premium);
+        $statement->bindParam(':premium', $premium, 1);
         $statement->bindParam(':image', $member->getImage());
 
         $statement->execute();
@@ -131,18 +131,37 @@ class Database
             $sql = "INSERT INTO member_interest (member_id, interest_id)
                     VALUES (:id, :interest)";
 
-            $statement = $this->_dbh->prepare($sql);
+            $select = "SELECT interest_id FROM interest
+                        WHERE interest=:interest";
 
-            foreach($member->getIndoorInterests() as $interest) {
+            $statement = $this->_dbh->prepare($sql);
+            $selectStmt = $this->_dbh->prepare($select);
+
+            $indoor = $member->getIndoorInterests();
+            $outdoor = $member->getOutdoorInterests();
+
+            foreach($indoor as $interest) {
+
+                // get interest_id
+                $selectStmt->bindParam(':interest', $interest);
+                $selectStmt->execute();
+                $intId = $selectStmt->fetch(2);
+
+                // add member_id / interest_id to member_interest table
                 $statement->bindParam(':id', $id);
-                $statement->bindParam(':interest', $interest);
+                $statement->bindParam(':interest', $intId['interest_id']);
 
                 $statement->execute();
             }
 
-            foreach($member->getIndoorInterests() as $interest) {
+            foreach($outdoor as $interest) {
+                // get interest_id
+                $selectStmt->bindParam(':interest', $interest);
+                $selectStmt->execute();
+                $intId = $selectStmt->fetch(2);
+
                 $statement->bindParam(':id', $id);
-                $statement->bindParam(':interest', $interest);
+                $statement->bindParam(':interest', $intId['interest_id']);
 
                 $statement->execute();
             }
