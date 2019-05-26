@@ -20,7 +20,7 @@
 //  seeking VARCHAR(6),
 //  bio TEXT,
 //  premium TINYINT(1) NOT NULL,
-//  image VARCHAR(80) NOT NULL
+//  image VARCHAR(80) NOT NULL DEFAULT '/images/profile.jpg'
 //);
 //
 //CREATE TABLE interest
@@ -88,18 +88,6 @@ class Database
 
     function insertMember($member)
     {
-//        member_id INT PRIMARY KEY AUTO_INCREMENT,
-//  fname VARCHAR(40) NOT NULL,
-//  lname VARCHAR(40) NOT NULL,
-//  age INT NOT NULL,
-//  gender VARCHAR(6),
-//  phone VARCHAR(15) NOT NULL,
-//  email VARCHAR(255) NOT NULL,
-//  state CHAR(20) NOT NULL,
-//  seeking VARCHAR(6),
-//  bio TEXT,
-//  premium TINYINT(1) NOT NULL,
-//  image VARCHAR(80) NOT NULL
         if(get_class($member) == 'PremiumMember') {
             $premium = 1;
         } else {
