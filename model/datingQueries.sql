@@ -11,7 +11,7 @@ CREATE TABLE member
   seeking VARCHAR(6),
   bio TEXT,
   premium TINYINT(1) NOT NULL,
-  image VARCHAR(80) NOT NULL
+  image VARCHAR(80) NOT NULL DEFAULT '/images/profile.jpg'
 );
 
 CREATE TABLE interest

@@ -170,7 +170,49 @@ class Database
 
     function getMembers()
     {
+        global $f3;
+        $db = $this->_dbh;
 
+        $sql = "SELECT member_id, fname, lname, age, gender, phone, email, state, seeking, premium
+                FROM member
+                ORDER BY lname";
+
+        $statement = $db->prepare($sql);
+        $statement->execute();
+        $members = $statement->fetchAll(2);
+
+        // get interests for each member
+        $sql = "SELECT interest FROM interest, member, member_interest
+                WHERE member.member_id=:id 
+                  AND member.member_id = member_interest.member_id 
+                  AND interest.interest_id = member_interest.interest_id";
+        $statement = $db->prepare($sql);
+
+        foreach($members as $index => $row) {
+            // concatenate full name
+            $name = $row['fname'] . ' ' . $row['lname'];
+            $members[$index]['name'] = $name;
+
+            // get state abbreviation
+            $state = ucwords(strtolower($row['state']));
+            $abbr = $f3->get("states[$state]");
+            $members[$index]['state'] = $abbr;
+
+            // get array of interests
+            $statement->bindParam(':id', $row['member_id']);
+            $statement->execute();
+            $result = $statement->fetchAll(2);
+
+            $interests = array();
+            foreach($result as $interest){
+                // add each interest to the string
+                $interests[] = $interest['interest'];
+            }
+            $interests = implode(', ', $interests);
+
+            $members[$index]['interests'] = $interests;
+        }
+        return $members;
     }
 
     function getMember($member_id)

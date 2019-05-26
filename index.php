@@ -49,30 +49,30 @@ $f3->set('inInterests', $interests[0]);
 $f3->set('outInterests', $interests[1]);
 $f3->set('maxInt', $interests[2]);
 
+//$f3->set('states',
+//    array("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
+//        "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
+//        "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
+//        "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
+//        "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
+//        "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
+//        "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"));
+
 $f3->set('states',
-    array("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
-        "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
-        "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
-        "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
-        "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
-        "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
-        "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"));
+    array("Alabama" => "AL", "Alaska" => "AK", "Arizona" => "AZ", "Arkansas" => "AR", "California" => "CA",
+        "Colorado" => "CO", "Connecticut" => "CT", "Delaware" => "DE", "Florida" => "FL", "Georgia" => "GA",
+        "Hawaii" => "HI", "Idaho" => "ID", "Illinois" => "IL", "Indiana" => "IN", "Iowa" => "IA", "Kansas" => "KS",
+        "Kentucky" => "KY", "Louisiana" => "LA", "Maine" => "ME", "Maryland" => "MD", "Massachusetts" => "MA",
+        "Michigan" => "MI", "Minnesota" => "MN", "Mississippi" => "MS", "Missouri" => "MO", "Montana" => "MT",
+        "Nebraska" => "NE", "Nevada" => "NV", "New Hampshire" => "NH", "New Jersey" => "NJ", "New Mexico" => "NM",
+        "New York" => "NY", "North Carolina" => "NC", "North Dakota" => "ND", "Ohio" => "OH", "Oklahoma" => "OK",
+        "Oregon" => "OR", "Pennsylvania" => "PA", "Rhode Island" => "RI", "South Carolina" => "SC",
+        "South Dakota" => "SD", "Tennessee" => "TN", "Texas" => "TX", "Utah" => "UT", "Vermont" => "VT",
+        "Virginia" => "VA", "Washington" => "WA", "West Virginia" => "WV", "Wisconsin" => "WI", "Wyoming" => "WY"));
 
 //Define a default route (dating splash page)
-$f3->route('GET /', function($f3)
+$f3->route('GET /', function()
 {
-    print_r($f3->get('inInterests'));
-    print_r($f3->get('outInterests'));
-    print_r($f3->get('maxInt'));
-
-    if(is_int((int)"3.5")) {
-        echo '<br>' . (int)"3.5" . ' is an int';
-    } else {
-        echo '<br>' . (int)"3.5" . 'is not an int';
-    }
-
-    echo 'Size: ' . strlen("1000");
-
     $view = new Template();
     echo $view->render('views/home.html');
 });
@@ -271,6 +271,14 @@ $f3->route('GET /summary', function($f3)
     $f3->set('class', get_class($_SESSION['member']));
     $view = new Template();
     echo $view->render('views/summary.html');
+});
+
+$f3->route('GET /admin', function($f3) {
+
+    global $db;
+    $f3->set('members', $db->getMembers());
+    $view = new Template();
+    echo $view->render('views/admin.html');
 });
 
 //run Fat-free
