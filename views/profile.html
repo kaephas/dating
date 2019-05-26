@@ -24,6 +24,7 @@
 <body>
     <nav class="nav">
         <a class="nav-link" href="./">FF Match</a>
+        <a class="nav-link" href="admin">Admin</a>
     </nav>
 
     <div class="container">
@@ -47,7 +48,7 @@
                             </check>
                             <select id="state" name="state" class="form-control">
 
-                                <repeat group="{{ @states }}" value="{{ @stateOption }}">
+                                <repeat group="{{ @states }}" key="{{ @stateOption }}" value="{{ @abbr }}">
                                     <option
                                     <check if="{{ @state == strtoupper(@stateOption) }}">
                                         selected
