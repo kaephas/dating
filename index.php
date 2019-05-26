@@ -281,5 +281,15 @@ $f3->route('GET /admin', function($f3) {
     echo $view->render('views/admin.html');
 });
 
+$f3->route('GET /member/@id', function($f3, $params) {
+    $id = $params['id'];
+    global $db;
+    $_SESSION['member'] = $db->getMember($id);
+    $_SESSION['member']->setImage('../' . $_SESSION['member']->getImage());
+    $f3->set('class', get_class($_SESSION['member']));
+
+    $view = new Template();
+    echo $view->render('views/member.html');
+});
 //run Fat-free
 $f3 -> run();

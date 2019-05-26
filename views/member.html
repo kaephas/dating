@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+    Kaephas Kain
+    5-25-2019
+    member.html
+
+    summary page for single member retrieved from database
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <!-- my own -->
+    <link rel="stylesheet" href="../styles/styles.css">
+
+    <title>View Profile</title>
+</head>
+<body>
+    <nav class="nav">
+        <a class="nav-link" href="../">FF Match</a>
+        <a class="nav-link" href="../admin">Admin</a>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <!-- profile info table-->
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item">Name: {{ @SESSION.member->getFname() }} {{ @SESSION.member->getLname() }}</li>
+                    <li class="list-group-item">Gender: {{ @SESSION.member->getGender() }}</li>
+                    <li class="list-group-item">Age: {{ @SESSION.member->getAge() }}</li>
+                    <li class="list-group-item">Phone: {{ @SESSION.member->getPhone() }}</li>
+                    <li class="list-group-item">Email: {{ @SESSION.member->getEmail() }}</li>
+                    <li class="list-group-item">State: {{ @SESSION.member->getState() }}</li>
+                    <li class="list-group-item">Seeking: {{ @SESSION.member->getSeeking() }}</li>
+                    <check if="{{ @class == 'PremiumMember' }}">
+                        <li class="list-group-item">Interests: {{ @allInterests }}</li>
+                    </check>
+                </ul>
+            </div>
+            <!-- profile image and bio-->
+            <div class="col-md-6">
+                <!-- image -->
+                <div class="row">
+                    <div class="col text-center">
+                        <img src="{{ @SESSION.member->getImage() }}"
+                             class="img-fluid rounded" id="profileImg" alt="profile image">
+                    </div>
+                </div>
+                <!-- bio -->
+                <div class="row">
+                    <div class="col">
+                        <h4>Biography</h4>
+                        <p class="text-center">{{ @SESSION.member->getBio() }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="text-center">
+            <button class="btn btn-primary">Contact Me!</button>
+        </div>
+    </div>
+    <!-- bootstrap scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</body>
+</html>

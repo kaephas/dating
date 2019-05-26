@@ -198,8 +198,69 @@ class Database
             $abbr = $f3->get("states[$state]");
             $members[$index]['state'] = $abbr;
 
-            // get array of interests
-            $statement->bindParam(':id', $row['member_id']);
+            if($row['premium'] == 1) {
+                // get array of interests
+                $statement->bindParam(':id', $row['member_id']);
+                $statement->execute();
+                $result = $statement->fetchAll(2);
+
+                $interests = array();
+                foreach($result as $interest){
+                    // add each interest to the string
+                    $interests[] = $interest['interest'];
+                }
+                $interests = implode(', ', $interests);
+
+                $members[$index]['interests'] = $interests;
+            }
+
+        }
+        return $members;
+    }
+
+    function getMember($member_id)
+    {
+        global $f3;
+        $db = $this->_dbh;
+
+        $sql = "SELECT fname, lname, age, gender, phone, email, state, seeking, bio, premium, image
+                FROM member
+                WHERE member_id=:member_id";
+
+        $statement = $db->prepare($sql);
+        $statement->bindParam(':member_id', $member_id);
+        $statement->execute();
+        $memberInfo = $statement->fetch(2);
+
+        // get interests for each member
+        if($memberInfo['premium'] == 0) {
+            $member = new Member($memberInfo['fname'], $memberInfo['lname'], $memberInfo['age'], $memberInfo['gender'],
+                $memberInfo['phone']);
+
+            $member->setEmail($memberInfo['email']);
+            $member->setState($memberInfo['state']);
+            $member->setSeeking($memberInfo['seeking']);
+            $member->setBio($memberInfo['bio']);
+
+        }
+
+        if($memberInfo['premium'] == 1) {
+            $member = new PremiumMember($memberInfo['fname'], $memberInfo['lname'], $memberInfo['age'], $memberInfo['gender'],
+                $memberInfo['phone']);
+
+            $member->setEmail($memberInfo['email']);
+            $member->setState($memberInfo['state']);
+            $member->setSeeking($memberInfo['seeking']);
+            $member->setBio($memberInfo['bio']);
+            $member->setImage($memberInfo['image']);
+
+            $sql = "SELECT interest FROM interest, member, member_interest
+                WHERE member.member_id=:id 
+                  AND member.member_id = member_interest.member_id 
+                  AND interest.interest_id = member_interest.interest_id";
+
+            $statement = $db->prepare($sql);
+            $statement->bindParam(':id', $member_id);
             $statement->execute();
             $result = $statement->fetchAll(2);
 
@@ -208,16 +269,10 @@ class Database
                 // add each interest to the string
                 $interests[] = $interest['interest'];
             }
-            $interests = implode(', ', $interests);
+            $f3->set('allInterests', implode(', ', $interests));
 
-            $members[$index]['interests'] = $interests;
         }
-        return $members;
-    }
-
-    function getMember($member_id)
-    {
-
+        return $member;
     }
 
 }

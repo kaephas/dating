@@ -18,6 +18,7 @@
           crossorigin="anonymous">
     <!-- my own -->
     <link rel="stylesheet" href="styles/styles.css">
+
     <title>Admin Page</title>
 </head>
 <body>
@@ -29,35 +30,35 @@
 <br>
 <h3>Membership</h3>
 <br>
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>State</th>
-            <th>Gender</th>
-            <th>Seeking</th>
-            <th>Premium</th>
-            <th>Interests</th>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">State</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Seeking</th>
+            <th scope="col">Premium</th>
+            <th scope="col">Interests</th>
         </tr>
     </thead>
     <tbody>
         <repeat group="{{ @members }}" value="{{ @member }}">
-            <tr>
-                <td>{{ @member['member_id'] }}</td>
+            <tr class="clickable-row" data-href="member/{{ @member['member_id'] }}">
+                <th scope="row">{{ @member['member_id'] }}</th>
                 <td>{{ @member['name'] }}</td>
                 <td>{{ @member['age'] }}</td>
                 <td>{{ @member['phone'] }}</td>
                 <td>{{ @member['email'] }}</td>
                 <td>{{ @member['state'] }}</td>
-                <td><check if="{{ @member['gender'] == 'NULL' }}">
-                    <false>
+                <td>
+                    <check if="{{ !(@member['gender'] == 'NULL') }}">
                         {{ @member['gender'] }}
-                    </false>
-                </check></td>
+                    </check>
+                </td>
                 <td>{{ @member['seeking'] }}</td>
                 <td><input type="checkbox"
                     <check if="{{ @member['premium'] == 1}}">
@@ -66,16 +67,19 @@
                     >
                 </td>
                 <td>{{ @member['interests'] }}</td>
+                <td><a href="member/{{ @member['member_id'] }}">Edit</a></td>
             </tr>
         </repeat>
     </tbody>
 </table>
 
-
-<!-- bootstrap scripts -->
+<!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
+<!-- table link script -->
+<script src="scripts/scripts.js"></script>
+<!-- bootstrap scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
