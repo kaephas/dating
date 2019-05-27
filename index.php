@@ -44,7 +44,7 @@ $f3->set('DEBUG', 3);
 // connect to database
 $db = new Database();
 
-$interests = $db->getInterests();
+$interests = $db->getAllInterests();
 
 $f3->set('inInterests', $interests[0]);
 $f3->set('outInterests', $interests[1]);

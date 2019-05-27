@@ -86,7 +86,7 @@ class Database
      *
      * @return array $lists     [indoor array, outdoor array, interest count]
      */
-    function getInterests()
+    function getAllInterests()
     {
         $indoor = array();
         $outdoor = array();
@@ -282,24 +282,9 @@ class Database
                 $memberInfo['phone']);
             // works whether image is actually set or using default profile image
             $member->setImage($memberInfo['image']);
-            // get all interests associated with member id
-            $sql = "SELECT interest FROM interest, member, member_interest
-                WHERE member.member_id=:id 
-                  AND member.member_id = member_interest.member_id 
-                  AND interest.interest_id = member_interest.interest_id";
-
-            $statement = $db->prepare($sql);
-            $statement->bindParam(':id', $member_id);
-            $statement->execute();
-            $result = $statement->fetchAll(2);
-
-            $interests = array();
-            foreach($result as $interest){
-                // add each interest to the array
-                $interests[] = $interest['interest'];
-            }
+//
             // allInterests = f3 variable for view member page, implode for comma-separated string
-            $f3->set('allInterests', implode(', ', $interests));
+            $f3->set('allInterests', implode(', ', $this->getInterests($member_id)));
         }
 
         // values to add for both member types
@@ -309,6 +294,32 @@ class Database
         $member->setBio($memberInfo['bio']);
 
         return $member;
+    }
+
+    /**
+     * Gets an array of all interests in the database matching the member id
+     *
+     * @param int $member_id    id of the member
+     * @return array $interests     all interests of the member
+     */
+    private function getInterests($member_id) {
+        // get all interests associated with member id
+        $sql = "SELECT interest FROM interest, member, member_interest
+                WHERE member.member_id=:id 
+                  AND member.member_id = member_interest.member_id 
+                  AND interest.interest_id = member_interest.interest_id";
+
+        $statement = $this->_dbh->prepare($sql);
+        $statement->bindParam(':id', $member_id);
+        $statement->execute();
+        $result = $statement->fetchAll(2);
+
+        $interests = array();
+        foreach($result as $interest){
+            // add each interest to the array
+            $interests[] = $interest['interest'];
+        }
+        return $interests;
     }
 
 }
