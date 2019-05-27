@@ -39,12 +39,11 @@
                 </check>
                 <br>
                 <div class="row" id="indoor">
-
                     <repeat group="{{ @inInterests }}" key="{{ @id }}" value="{{ @interest }}">
                         <div class="col-md-3 col-sm-6">
                             <input type="checkbox" name="indoor[]" id="{{ str_replace(' ', '', @interest) }}"
                                    value="{{ @id }}"
-                            <check if="{{ !empty(@indoor) && in_array(@interest, @indoor)
+                            <check if="{{ !empty(@indoor) && in_array(@id, @indoor)
                                                             && in_array(@interest, @inInterests)}}">
                                 checked
                             </check>
@@ -67,7 +66,7 @@
                         <div class="col-md-3 col-sm-6">
                             <input type="checkbox" name="outdoor[]" id="{{ str_replace(' ', '', @outerest) }}"
                                    value="{{ @id }}"
-                            <check if="{{ !empty(@outdoor) && in_array(@outerest, @outdoor)
+                            <check if="{{ !empty(@outdoor) && in_array(@id, @outdoor)
                                                             && in_array(@outerest, @outInterests)}}">
                                 checked
                             </check>

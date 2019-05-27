@@ -173,24 +173,26 @@ $f3->route('POST /interests', function($f3)
 {
     // check if any values in interests and if so, are valid
 
-    // no values selected = ok
-    $validate = true;
-
-    // validate outdoor values
-    if(sizeof($_POST['outdoor']) > 0) {
-        // store in hive for stickiness
-        $outdoor = $_POST['outdoor'];
-        $f3->set('outdoor', $outdoor);
-        $validate = validOutdoor($outdoor);
-    }
     // validate indoor values
+    $validateIn = true;
     if(sizeof($_POST['indoor']) > 0) {
         // store in hive for stickiness
         $indoor = $_POST['indoor'];
         $f3->set('indoor', $indoor);
-        $validate = $validate && validIndoor($indoor);
+        $validateIn = validIndoor($indoor);
     }
+
+    // validate outdoor values
+    $validateOut = true;
+    if(sizeof($_POST['outdoor']) > 0) {
+        // store in hive for stickiness
+        $outdoor = $_POST['outdoor'];
+        $f3->set('outdoor', $outdoor);
+        $validateOut = validOutdoor($outdoor);
+    }
+
     // image validation
+    $validateImg = true;
     if(!empty($_FILES['image']['name'])) {
         // can't make image info sticky (path is not on server)
         $image = $_FILES['image'];
@@ -199,10 +201,12 @@ $f3->route('POST /interests', function($f3)
         // get storage path to attempt
         $path = 'uploads/' . basename($image["name"]);
 
-        $validate =  $validate && validImage($image, $path);
-
+        //
+        $validateImg = validImage($image, $path);
 
     }
+    // check if both sets were valid
+    $validate = $validateIn && $validateOut && $validateImg;
 
     // all options selected are in the original arrays (or none selected)
     // and image is either not set or has been uploaded
@@ -224,12 +228,17 @@ $f3->route('POST /interests', function($f3)
             $outOpt = $f3->get('outInterests');
             $inOpt = $f3->get('inInterests');
 
-            foreach ($outdoor as $key) {
-                $outInt[] = $outOpt[$key];
+            if(sizeof($outdoor) > 0) {
+                foreach ($outdoor as $key) {
+                    $outInt[] = $outOpt[$key];
+                }
             }
-            foreach ($indoor as $key) {
-                $inInt[] = $inOpt[$key];
+            if(sizeof($indoor) > 0) {
+                foreach ($indoor as $key) {
+                    $inInt[] = $inOpt[$key];
+                }
             }
+
             $_SESSION['member']->setOutdoorInterests($outInt);
             $_SESSION['member']->setIndoorInterests($inInt);
 

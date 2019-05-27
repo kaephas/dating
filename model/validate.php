@@ -169,9 +169,13 @@ function validOutdoor($out)
 //            }
             $chars = strlen($f3->get('maxInt'));
             $regex = "/\\d{" . strlen($interest) . "}/";
-            if(strlen($interest) > $chars || !preg_match($regex, $interest)) {
+            if(strlen($interest) > $chars || !preg_match($regex, $interest) || $interest > $f3->get('maxInt')) {
                 $valid = false;
             }
+//            $outerests = $f3->get('outInterests');
+//            if(!in_array($outerests[$interest], $outerests)) {
+//                $valid = false;
+//            }
         }
     }
     if(!$valid) {
@@ -200,7 +204,7 @@ function validIndoor($ind)
 //            }
             $chars = strlen($f3->get('maxInt'));
             $regex = "/\\d{" . strlen($interest) . "}/";
-            if(strlen($interest) > $chars || !preg_match($regex, $interest)) {
+            if(strlen($interest) > $chars || !preg_match($regex, $interest) || $interest > $f3->get('maxInt')) {
                 $valid = false;
             }
         }

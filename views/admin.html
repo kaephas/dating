@@ -3,10 +3,10 @@
 <head>
     <!--
     Kaephas Kain
-    /date/
-    /filename/
+    5-25-2019
+    admin.html
 
-    /description
+    loads all members from the database, click a member to view details
     -->
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -60,7 +60,7 @@
                     </check>
                 </td>
                 <td>{{ @member['seeking'] }}</td>
-                <td><input type="checkbox"
+                <td><input disabled type="checkbox"
                     <check if="{{ @member['premium'] == 1}}">
                         checked
                     </check>
