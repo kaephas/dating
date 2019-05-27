@@ -12,7 +12,7 @@ ini_set('display_errors' ,1);
 ini_set('file_uploads', 1);
 error_reporting(E_ALL);
 
-//require autoload file
+//require autoload file and validation scripts
 require_once 'vendor/autoload.php';
 require_once 'model/validate.php';
 
@@ -21,14 +21,13 @@ session_start();
 //create an instance of the Base class
 $f3 = Base::instance();
 
-
-
+// Now Loaded from database
 //$f3->set('outInterests',
 //    array("hiking", "biking", "swimming", "collecting", "walking", "climbing"));
 //$f3->set('inInterests',
 //    array("tv", "movies", "cooking", "board games", "puzzles", "reading", "playing cards", "video games"));
 
-//Turn on Fat-Free error reporting
+//Turn on Fat-Free error reporting  -- Can't get to work
 //set_exception_handler(function($obj) use($f3){
 //    $f3->error(500,$obj->getmessage(),$obj->gettrace());
 //});
@@ -39,8 +38,10 @@ $f3 = Base::instance();
 //        $f3->error(500,$text);
 //    }
 //});
+
 $f3->set('DEBUG', 3);
 
+// connect to database
 $db = new Database();
 
 $interests = $db->getInterests();
@@ -58,6 +59,7 @@ $f3->set('maxInt', $interests[2]);
 //        "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
 //        "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"));
 
+// adjust array to show abbr on admin page
 $f3->set('states',
     array("Alabama" => "AL", "Alaska" => "AK", "Arizona" => "AZ", "Arkansas" => "AR", "California" => "CA",
         "Colorado" => "CO", "Connecticut" => "CT", "Delaware" => "DE", "Florida" => "FL", "Georgia" => "GA",
@@ -103,7 +105,7 @@ $f3->route('GET|POST /personal', function($f3)
         // validate
         if(validPersonal()) {
 
-            // store in class
+            // store in class and put in session
             if($premium == 'true') {
                 $member = new PremiumMember($first, $last, $age, $gender, $phone);
             } else {
@@ -157,18 +159,20 @@ $f3->route('GET|POST /profile', function($f3)
             }
         }
     }
+
+    // GET or if any invalid form data
     $view = new Template();
     echo $view->render('views/profile.html');
 });
 
-// if 1st load of interests
+// if 1st load of interests -> since all data empty is ok
 $f3->route('GET /interests', function()
 {
     $view = new Template();
     echo $view->render('views/interests.html');
 });
 
-// after post interests
+// after POST interests
 $f3->route('POST /interests', function($f3)
 {
     // check if any values in interests and if so, are valid
@@ -205,13 +209,11 @@ $f3->route('POST /interests', function($f3)
         $validateImg = validImage($image, $path);
 
     }
-    // check if both sets were valid
+    // check if all data valid (or empty)
     $validate = $validateIn && $validateOut && $validateImg;
 
-    // all options selected are in the original arrays (or none selected)
-    // and image is either not set or has been uploaded
     if ($validate) {
-        // if file upload success
+        // check for file upload success
         $upload = true;
         if(!empty($_FILES['image']['name'])) {
             if (move_uploaded_file($image['tmp_name'], $path)) {
@@ -228,6 +230,7 @@ $f3->route('POST /interests', function($f3)
             $outOpt = $f3->get('outInterests');
             $inOpt = $f3->get('inInterests');
 
+            // use int value as key to access interest
             if(sizeof($outdoor) > 0) {
                 foreach ($outdoor as $key) {
                     $outInt[] = $outOpt[$key];
@@ -262,7 +265,8 @@ $f3->route('GET /summary', function($f3)
         $indoor = $_SESSION['member']->getIndoorInterests();
         $outdoor = $_SESSION['member']->getOutdoorInterests();
         $interests = "";
-        // make sure there's something to iterate over
+
+        // if interests aren't empty add items to string
         if(sizeof($indoor) > 0) {
             foreach ($indoor as $interest) {
                 $interests .= $interest . ', ';
@@ -273,32 +277,43 @@ $f3->route('GET /summary', function($f3)
                 $interests .= $interest . ', ';
             }
         }
-
         $interests = substr($interests, 0, -2);
         $f3->set('allInterests', $interests);
     }
+
     $f3->set('class', get_class($_SESSION['member']));
     $view = new Template();
     echo $view->render('views/summary.html');
+
+    session_destroy();
 });
 
+// view all members
 $f3->route('GET /admin', function($f3) {
-
     global $db;
+    // get all members in database
     $f3->set('members', $db->getMembers());
+
     $view = new Template();
     echo $view->render('views/admin.html');
 });
 
+// view specific member clicked on admin
 $f3->route('GET /member/@id', function($f3, $params) {
     $id = $params['id'];
     global $db;
+    // get member with id
     $_SESSION['member'] = $db->getMember($id);
+    // extra "folder" so up a level
     $_SESSION['member']->setImage('../' . $_SESSION['member']->getImage());
+    // store Member or PremiumMember
     $f3->set('class', get_class($_SESSION['member']));
 
     $view = new Template();
     echo $view->render('views/member.html');
+
+    session_destroy();
 });
+
 //run Fat-free
 $f3 -> run();

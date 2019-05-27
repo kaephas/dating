@@ -71,29 +71,6 @@ function validProfile()
 }
 
 /**
- * Checks if both sets of interest options are valid
- * @return bool     if both sets of interests are valid
- */
-//function validInterests()
-//{
-//    global $f3;
-//    $isValid = true;
-//    if(!validIndoor($f3->get('indoor'))) {
-//        $isValid = false;
-//        $f3->set('errors["indoor"]', "Please choose a valid indoor option.");
-//    }
-//
-//    if(!validOutdoor($f3->get('outdoor'))) {
-//        $isValid = false;
-//        $f3->set('errors["outdoor"]', "Please choose a valid outdoor option.");
-//    }
-//
-//    return $isValid;
-//    //return false;
-//}
-
-
-/**
  * checks if a name is valid
  * @param string $name  word to be checked
  * @return bool     if name is valid

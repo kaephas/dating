@@ -4,7 +4,8 @@
  * 5-20-19
  * database.php
  *
- * Database class
+ * Connects to Dating database with methods to retrieve Member data and Interests
+ * and insert new members
  */
 
 //CREATE TABLE member
@@ -41,15 +42,33 @@
 
 require '/home/kaephasg/config.php';
 
+/**
+ * Class Dating represents a database connection
+ *
+ * Connects to Dating database with functions to insert and select
+ * @author Kaephas Kain
+ * @version 1.0
+ *
+ */
 class Database
 {
     private $_dbh;
 
+    /**
+     * Database constructor connects to database
+     *
+     * @return void
+     */
     function __construct()
     {
         $this->connect();
     }
 
+    /**
+     * Returns the database connection or echos error message
+     *
+     * @return PDO database connection
+     */
     function connect()
     {
         try {
@@ -61,6 +80,12 @@ class Database
         }
     }
 
+    /**
+     * Returns an array of indoor and outdoor interest -- associative arrays of interest_id => interests
+     * and the count of total items in the arrays
+     *
+     * @return array $lists     [indoor array, outdoor array, interest count]
+     */
     function getInterests()
     {
         $indoor = array();
@@ -86,19 +111,27 @@ class Database
     }
 
 
+    /**
+     * Inserts data from a Member or Premium member into the database
+     *
+     * @param Member|PremiumMember $member    the Member or PremiumMember to be added
+     * @return void
+     */
     function insertMember($member)
     {
+        // set premium status
         if(get_class($member) == 'PremiumMember') {
             $premium = 1;
         } else {
             $premium = 0;
         }
-
+        // insert query
         $sql = "INSERT INTO member (fname, lname, age, gender, phone, email, state, seeking, bio, premium, image)
                 VALUES (:fname, :lname, :age, :gender, :phone, :email, :state, :seeking, :bio, :premium, :image)";
 
         $statement = $this->_dbh->prepare($sql);
 
+        // bind all parameters
         $statement->bindParam(':fname', $member->getFname());
         $statement->bindParam(':lname', $member->getLname());
         $statement->bindParam(':age', $member->getAge(), 1);
@@ -113,12 +146,16 @@ class Database
 
         $statement->execute();
 
+        // link interests to member if Premium
         if(get_class($member) == 'PremiumMember') {
+            // get id of entered member
             $id = $this->_dbh->lastInsertId();
 
+            // junction table insert string
             $sql = "INSERT INTO member_interest (member_id, interest_id)
                     VALUES (:id, :interest)";
 
+            // get ids for interests
             $select = "SELECT interest_id FROM interest
                         WHERE interest=:interest";
 
@@ -127,7 +164,7 @@ class Database
 
             $indoor = $member->getIndoorInterests();
             $outdoor = $member->getOutdoorInterests();
-
+            // add each member -> interest to the junction table
             foreach($indoor as $interest) {
 
                 // get interest_id
@@ -141,13 +178,13 @@ class Database
 
                 $statement->execute();
             }
-
             foreach($outdoor as $interest) {
                 // get interest_id
                 $selectStmt->bindParam(':interest', $interest);
                 $selectStmt->execute();
                 $intId = $selectStmt->fetch(2);
 
+                // add member_id / interest_id to member_interest table
                 $statement->bindParam(':id', $id);
                 $statement->bindParam(':interest', $intId['interest_id']);
 
@@ -156,28 +193,36 @@ class Database
         }
     }
 
+    /**
+     * Retrieves all members from the Dating database
+     *
+     * @return array  $members  array of arrays of member data
+     */
     function getMembers()
     {
         global $f3;
         $db = $this->_dbh;
 
+        // select query
         $sql = "SELECT member_id, fname, lname, age, gender, phone, email, state, seeking, premium
                 FROM member
                 ORDER BY lname";
-
         $statement = $db->prepare($sql);
         $statement->execute();
+
+        // store all results
         $members = $statement->fetchAll(2);
 
-        // get interests for each member
+        // match interests to member query to be used only with premium members
         $sql = "SELECT interest FROM interest, member, member_interest
                 WHERE member.member_id=:id 
                   AND member.member_id = member_interest.member_id 
                   AND interest.interest_id = member_interest.interest_id";
         $statement = $db->prepare($sql);
 
+        // concatenate name and change state string for each member for readability
         foreach($members as $index => $row) {
-            // concatenate full name
+            // concatenate full name for each member
             $name = $row['fname'] . ' ' . $row['lname'];
             $members[$index]['name'] = $name;
 
@@ -186,6 +231,7 @@ class Database
             $abbr = $f3->get("states[$state]");
             $members[$index]['state'] = $abbr;
 
+            // run interests query for premium members
             if($row['premium'] == 1) {
                 // get array of interests
                 $statement->bindParam(':id', $row['member_id']);
@@ -201,16 +247,21 @@ class Database
 
                 $members[$index]['interests'] = $interests;
             }
-
         }
         return $members;
     }
 
+    /**
+     * Creates a Member/Premium object that matches the id in the database
+     *
+     * @param int $member_id    The id of the member to find
+     * @return Member|PremiumMember $member     The Member object created
+     */
     function getMember($member_id)
     {
         global $f3;
         $db = $this->_dbh;
-
+        // query string to match member id
         $sql = "SELECT fname, lname, age, gender, phone, email, state, seeking, bio, premium, image
                 FROM member
                 WHERE member_id=:member_id";
@@ -224,24 +275,14 @@ class Database
         if($memberInfo['premium'] == 0) {
             $member = new Member($memberInfo['fname'], $memberInfo['lname'], $memberInfo['age'], $memberInfo['gender'],
                 $memberInfo['phone']);
-
-            $member->setEmail($memberInfo['email']);
-            $member->setState($memberInfo['state']);
-            $member->setSeeking($memberInfo['seeking']);
-            $member->setBio($memberInfo['bio']);
-
         }
 
         if($memberInfo['premium'] == 1) {
             $member = new PremiumMember($memberInfo['fname'], $memberInfo['lname'], $memberInfo['age'], $memberInfo['gender'],
                 $memberInfo['phone']);
-
-            $member->setEmail($memberInfo['email']);
-            $member->setState($memberInfo['state']);
-            $member->setSeeking($memberInfo['seeking']);
-            $member->setBio($memberInfo['bio']);
+            // works whether image is actually set or using default profile image
             $member->setImage($memberInfo['image']);
-
+            // get all interests associated with member id
             $sql = "SELECT interest FROM interest, member, member_interest
                 WHERE member.member_id=:id 
                   AND member.member_id = member_interest.member_id 
@@ -254,12 +295,19 @@ class Database
 
             $interests = array();
             foreach($result as $interest){
-                // add each interest to the string
+                // add each interest to the array
                 $interests[] = $interest['interest'];
             }
+            // allInterests = f3 variable for view member page, implode for comma-separated string
             $f3->set('allInterests', implode(', ', $interests));
-
         }
+
+        // values to add for both member types
+        $member->setEmail($memberInfo['email']);
+        $member->setState($memberInfo['state']);
+        $member->setSeeking($memberInfo['seeking']);
+        $member->setBio($memberInfo['bio']);
+
         return $member;
     }
 

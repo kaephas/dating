@@ -26,12 +26,13 @@
     <a class="nav-link" href="./">FF Match</a>
     <a class="nav-link" href="admin">Admin</a>
 </nav>
-<h1>My Dating Site</h1>
-<br>
-<h3>Membership</h3>
-<br>
-<table class="table table-hover">
-    <thead>
+<div class="container">
+    <h1>My Dating Site</h1>
+    <br>
+    <h3>Membership</h3>
+    <br>
+    <table class="table table-hover">
+        <thead>
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
@@ -44,8 +45,8 @@
             <th scope="col">Premium</th>
             <th scope="col">Interests</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         <repeat group="{{ @members }}" value="{{ @member }}">
             <tr class="clickable-row" data-href="member/{{ @member['member_id'] }}">
                 <th scope="row">{{ @member['member_id'] }}</th>
@@ -70,9 +71,9 @@
                 <td><a href="member/{{ @member['member_id'] }}">Edit</a></td>
             </tr>
         </repeat>
-    </tbody>
-</table>
-
+        </tbody>
+    </table>
+</div>
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

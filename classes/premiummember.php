@@ -87,16 +87,4 @@ class PremiumMember extends Member
         return $this->_outDoorInterests;
     }
 
-    /**
-     * Gets the path of the profile image
-     * @return string   image path
-     */
-//    public function getImage()
-//    {
-//        return $this->_image;
-//    }
-
-
-
-
 }
